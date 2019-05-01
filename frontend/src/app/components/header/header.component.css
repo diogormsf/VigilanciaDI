@@ -1,0 +1,13 @@
+span {
+    color: white;
+}
+
+#headerToolbar {
+    background-color: black;
+    justify-content: space-between;
+}
+
+#logoImg {
+    height: 50%;
+    width: 50%;
+}
