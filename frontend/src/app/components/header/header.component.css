@@ -1,0 +1,46 @@
+span {
+    color: rgba(53, 53, 204, 0.808);
+}
+
+#headerToolbar {
+    background-color: black;
+    justify-content: space-between;
+}
+
+#titleToolbar {
+    position: fixed;
+    left: 40%;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 160%;
+}
+
+#logoImg {
+    position: fixed;
+    height: 7%;
+    width: 8%;
+    left: 5%;
+}
+
+#teste{
+    position: fixed;
+    right: 100px;
+}
+
+#userId {
+    position: fixed;
+    right: 10px;
+    font-family: "Courier New", Courier, monospace;
+}
+
+#userImg {
+    position: fixed;
+    height: 6%;
+    width: 2.7%;
+    right: 65px;
+}
+
+#menuImg {
+    position: fixed;
+    height: 5%;
+    width: 2.4%;
+}
