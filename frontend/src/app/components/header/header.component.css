@@ -5,6 +5,7 @@ span {
 #headerToolbar {
     background-color: black;
     justify-content: space-between;
+    height: 72px;
 }
 
 #titleToolbar {
@@ -12,6 +13,7 @@ span {
     left: 40%;
     font-family: "Courier New", Courier, monospace;
     font-size: 160%;
+    font-weight: bold;
 }
 
 #logoImg {
@@ -30,6 +32,7 @@ span {
     position: fixed;
     right: 10px;
     font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
 }
 
 #userImg {
