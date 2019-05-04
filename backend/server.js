@@ -68,7 +68,7 @@ router.route("/exames/delete/:id").get((req, res) => {
 //------------------- Professor -----------------------------
 //retorna todos os professores
 router.route("/professores").get((req, res) => {
-  Professor.find((err, professores) => {
+  Professor.find({}, (err, professores) => {
     if (err) console.log(err);
     else res.json(professores);
   });
