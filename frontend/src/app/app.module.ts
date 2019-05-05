@@ -16,6 +16,7 @@ import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { ProfessorService } from './professor.service';
+import { ExameService } from './exame.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ProfessorService } from './professor.service';
   ],
   providers: [
     ProfessorService,
+    ExameService
   ],
   bootstrap: [AppComponent]
 })
