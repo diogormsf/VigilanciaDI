@@ -7,8 +7,9 @@ let Professor = new Schema({
         type: String
     },
     estatuto: {
-        type: String
+        type: String,
+        default: 'Normal'
     }
 });
 
-export default mongoose.model('Professor', Professor);
+export default mongoose.model('Professor', Professor, 'Professor');
