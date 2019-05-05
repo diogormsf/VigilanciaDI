@@ -1,0 +1,24 @@
+#main-indisp {
+    display: flex;
+    flex-direction: column
+}
+
+.comunicar-indesp-main {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: "1fr";
+    grid-template-rows: "40px 50px 1fr";
+    grid-template-areas:
+        "title"
+        "."
+        "table";
+}
+
+.comunicar-indesp-main-title {
+    grid-area: "title";
+}
+
+.comunicar-indesp-main-table {
+    padding: 30px 20px 20px 0px;
+    grid-area: "table";
+}

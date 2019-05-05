@@ -4,46 +4,33 @@ span {
 
 #headerToolbar {
     background-color: black;
+    display: flex;
+    font-family: "Courier New", Courier, monospace;
     justify-content: space-between;
     height: 72px;
 }
 
 #titleToolbar {
-    position: fixed;
-    left: 40%;
-    font-family: "Courier New", Courier, monospace;
     font-size: 160%;
     font-weight: bold;
 }
 
 #logoImg {
-    position: fixed;
     height: 7%;
     width: 8%;
-    left: 5%;
-}
-
-#teste{
-    position: fixed;
-    right: 100px;
 }
 
 #userId {
-    position: fixed;
-    right: 10px;
     font-family: "Courier New", Courier, monospace;
     font-weight: bold;
 }
 
 #userImg {
-    position: fixed;
     height: 6%;
     width: 2.7%;
-    right: 65px;
 }
 
 #menuImg {
-    position: fixed;
     height: 5%;
     width: 2.4%;
 }

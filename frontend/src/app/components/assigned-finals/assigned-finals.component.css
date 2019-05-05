@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: "1fr";
     grid-template-rows: "40px 50px 1fr";
-    grid-template-areas: 
+    grid-template-areas:
         "title"
         "."
         "table";
@@ -14,10 +14,6 @@
 }
 
 .assigned-finals-main-table {
-    padding:30px; 
+    padding: 30px 20px 20px 0px;
     grid-area: "table";
-}
-
-table{
-    width: 1300px;
 }
