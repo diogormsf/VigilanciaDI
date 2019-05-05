@@ -1,0 +1,17 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer id="sidenav_css" class="sidenav" fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
+
+    <mat-toolbar id="menutoolbar">
+      <a href="home"><img id="logoImg" src="assets/img/fcul_logo.png" alt="" /></a>
+    </mat-toolbar>
+
+    <mat-nav-list id="listMenu" role="navigation">
+      <a href="assigned-finals"><button id="sidebutton_active">Exames para Vigiar</button></a>
+      <a href="#"><button id="sidebutton_inactive">Criar Vigilância</button></a>
+      <a href="#"><button id="sidebutton_inactive">Vigilâncias Criadas</button></a>
+      <a href="comunicar-indisp"><button id="sidebutton_inactive">Comunicar Indisponibilidade</button></a>
+    </mat-nav-list>
+  </mat-sidenav>
+</mat-sidenav-container>

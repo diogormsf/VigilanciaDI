@@ -1,4 +1,9 @@
-.assigned-finals-main {
+#main-indisp {
+    display: flex;
+    flex-direction: column
+}
+
+.comunicar-indesp-main {
     padding: 20px;
     display: grid;
     grid-template-columns: "1fr";
@@ -9,11 +14,11 @@
         "table";
 }
 
-.assigned-finals-main-title {
+.comunicar-indesp-main-title {
     grid-area: "title";
 }
 
-.assigned-finals-main-table {
+.comunicar-indesp-main-table {
     padding: 30px 20px 20px 0px;
     grid-area: "table";
 }

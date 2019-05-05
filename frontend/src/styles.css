@@ -1,8 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 .title {
-    font-family: "Verdana";
-    font-size:20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sub-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  overflow: hidden;
+  width: 200px;
+  margin-right: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

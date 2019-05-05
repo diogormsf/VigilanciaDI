@@ -1,6 +1,8 @@
-<app-main-nav></app-main-nav>
+<app-header></app-header>
 
 <div id="mainBody">
-  <app-side-bar [menuState]="menuState"></app-side-bar>
-  <router-outlet></router-outlet>
+  <app-main-nav></app-main-nav>
+  <div style="width:100%">
+      <router-outlet></router-outlet>
+  </div>
 </div>
