@@ -16,6 +16,7 @@ import { AssignedFinalsComponent } from './components/assigned-finals/assigned-f
 import { HomeComponent } from './components/home/home.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     HomeComponent,
     MainNavComponent,
     ComunicarIndispComponent,
-    AssignedFinalsComponent
+    AssignedFinalsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
