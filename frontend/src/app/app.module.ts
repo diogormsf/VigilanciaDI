@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material';
 import { MatSidenavModule, MatButtonModule, MatIconModule, MatListModule } from '@angular/material';
 import { MatTableModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,8 @@ import { AssignedFinalsComponent } from './components/assigned-finals/assigned-f
 import { HomeComponent } from './components/home/home.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+
+import { ProfessorService } from './professor.service';
 
 @NgModule({
   declarations: [
@@ -33,9 +36,12 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    ProfessorService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
