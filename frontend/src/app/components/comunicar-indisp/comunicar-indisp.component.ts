@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl } from '@angular/forms';
 
 export interface Indisponibilidade {
   datacriacao: String;
@@ -43,6 +44,10 @@ export class ComunicarIndispComponent implements OnInit {
 
   displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
   dataSource: Indisponibilidade[] = ELEMENT_DATA;
+
+  dateFrom = new FormControl(new Date());
+  dateTo = new FormControl(new Date());
+  description = 'Teste';
 
   constructor() { }
 

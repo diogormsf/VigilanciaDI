@@ -2,8 +2,39 @@
   <div class="comunicar-indesp-main-title">
     <span class="title">Comunicar Indisponibilidade</span>
   </div>
-  <div class="comunicar-indesp-main-table">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <div class="comunicar-indesp-main-new">
+    <span class="sub-title">Nova Indisponibilidade:</span>
+
+    <mat-form-field class="dateToFormField">
+      <input matInput
+        [matDatepicker]="pickerFrom"
+        placeholder="De:"
+        [(ngModel)]="dateFrom"
+        [max]="dateTo">
+      <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFrom></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="dateFromFormField">
+      <input matInput
+        [matDatepicker]="pickerTo"
+        placeholder="Até:"
+        [(ngModel)]="dateTo"
+        [min]="dateFrom">
+      <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+      <mat-datepicker #pickerTo></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="descriptionFormField">
+      <input matInput placeholder="Descrição" [(ngModel)]="description">
+    </mat-form-field>
+
+    <button mat-mini-fab color="primary">+</button>
+
+  </div>
+  <div class="comunicar-indesp-main-tableArea">
+    <span id="tableTitle" class="sub-title">A minha indisponibilidade</span>
+    <table mat-table id="tableIndisp" [dataSource]="dataSource" class="mat-elevation-z8" >
       <ng-container matColumnDef="datacriacao">
         <th mat-header-cell *matHeaderCellDef> Data Criação </th>
         <td mat-cell *matCellDef="let indisp"> {{indisp.datacriacao}} </td>
