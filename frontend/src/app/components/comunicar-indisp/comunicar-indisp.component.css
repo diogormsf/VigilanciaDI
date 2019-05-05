@@ -1,24 +1,42 @@
-#main-indisp {
-    display: flex;
-    flex-direction: column
-}
-
 .comunicar-indesp-main {
     padding: 20px;
     display: grid;
     grid-template-columns: "1fr";
-    grid-template-rows: "40px 50px 1fr";
+    grid-template-rows: "40px 30px 70px 50px 1fr";
     grid-template-areas:
         "title"
         "."
-        "table";
+        "newIndesp"
+        "."
+        "tableArea";
 }
 
 .comunicar-indesp-main-title {
-    grid-area: "title";
+    grid-area: title;
 }
 
-.comunicar-indesp-main-table {
+.comunicar-indesp-main-new {
+    grid-area: newIndesp;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-right: 20px;
+}
+
+.descriptionFormField {
+    width: 400px;
+}
+
+.comunicar-indesp-main-tableArea {
     padding: 30px 20px 20px 0px;
-    grid-area: "table";
+    grid-area: tableArea;
+}
+
+#tableTitle {
+    margin-bottom: 20px;
+}
+
+#tableIndisp {
+    margin-top: 20px;
 }

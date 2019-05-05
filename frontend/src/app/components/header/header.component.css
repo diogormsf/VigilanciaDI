@@ -1,36 +1,47 @@
 span {
-    color: rgba(53, 53, 204, 0.808);
+  color: rgba(53, 53, 204, 0.808);
 }
 
 #headerToolbar {
-    background-color: black;
-    display: flex;
-    font-family: "Courier New", Courier, monospace;
-    justify-content: space-between;
-    height: 72px;
+  background-color: black;
+  display: flex;
+  font-family: "Courier New", Courier, monospace;
+  justify-content: space-between;
+  height: 72px;
+  min-height: 50px;
 }
 
 #titleToolbar {
-    font-size: 160%;
-    font-weight: bold;
+  font-size: 160%;
+  font-weight: bold;
+}
+
+#imgArea {
+  display: flex;
+  width: 100px;
+  align-items: center;
+  justify-content: space-around;
 }
 
 #logoImg {
-    height: 7%;
-    width: 8%;
+  width: auto;
+  height: auto;
+  max-height: 8vh;
+}
+
+#userArea {
+  max-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 #userId {
-    font-family: "Courier New", Courier, monospace;
-    font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
 }
 
 #userImg {
-    height: 6%;
-    width: 2.7%;
-}
-
-#menuImg {
-    height: 5%;
-    width: 2.4%;
+  height: 30%;
+  width: 30%;
 }

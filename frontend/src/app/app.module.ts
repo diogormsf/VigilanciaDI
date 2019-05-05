@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material';
 import { MatSidenavModule, MatButtonModule, MatIconModule, MatListModule } from '@angular/material';
 import { MatTableModule } from '@angular/material';
-import {MatFormFieldModule} from '@angular/material/form-field';
-
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +39,12 @@ import { LoginComponent } from './components/login/login.component';
     MatIconModule,
     MatListModule,
     MatTableModule,
-    MatFormFieldModule
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

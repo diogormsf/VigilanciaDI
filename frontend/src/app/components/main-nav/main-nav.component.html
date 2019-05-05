@@ -1,11 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer id="sidenav_css" class="sidenav" fixedInViewport="true"
+  <mat-sidenav #drawer id="sidenav_css" class="sidenav"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="!(isHandset$ | async)">
-
-    <mat-toolbar id="menutoolbar">
-      <a href="home"><img id="logoImg" src="assets/img/fcul_logo.png" alt="" /></a>
-    </mat-toolbar>
 
     <mat-nav-list id="listMenu" role="navigation">
       <a href="login"><button id="sidebutton_active">Login</button></a>
