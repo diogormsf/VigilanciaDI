@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { AppComponent } from '../../app.component';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +6,6 @@ import { AppComponent } from '../../app.component';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-
-  @Input() menuState: boolean;
 
 
 
@@ -20,9 +17,6 @@ export class HeaderComponent implements OnInit {
 
   
   onToolbarMenuToggle() {
-
-    console.log('Sidenav', this.menuState);
-    this.menuState=!this.menuState;
   }
 
   
