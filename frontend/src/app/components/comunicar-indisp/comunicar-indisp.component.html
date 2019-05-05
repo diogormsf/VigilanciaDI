@@ -9,7 +9,8 @@
       <input matInput
         [matDatepicker]="pickerFrom"
         placeholder="De:"
-        [(ngModel)]="dateFrom">
+        [(ngModel)]="dateFrom"
+        [max]="dateTo">
       <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
       <mat-datepicker #pickerFrom></mat-datepicker>
     </mat-form-field>
@@ -18,7 +19,8 @@
       <input matInput
         [matDatepicker]="pickerTo"
         placeholder="Até:"
-        [(ngModel)]="dateTo">
+        [(ngModel)]="dateTo"
+        [min]="dateFrom">
       <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
       <mat-datepicker #pickerTo></mat-datepicker>
     </mat-form-field>
