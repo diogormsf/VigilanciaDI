@@ -32,4 +32,4 @@ let Exame = new Schema({
     }
 });
 
-export default mongoose.model('Exame', Exame);
+export default mongoose.model('Exame', Exame, "Exame");
