@@ -1,0 +1,30 @@
+.create-calendar-main{
+    grid: grid;
+    padding: 30px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 30px 20px 40px 50px 40px 20px 1fr;
+    grid-template-areas: 
+        "title"
+        "."
+        "genButton"
+        "."
+        "exameCombo"
+        "."
+        "results";
+}
+
+.create-calendar-main-title{
+    grid-area: "title";
+}
+
+.create-calendar-main-genButton{
+    grid-area: "genButton";
+}
+
+.create-calendar-main-unidadeCombo{
+    grid-area: "exameCombo";
+}
+
+.create-calendar-main-results{
+    grid-area: "results";
+}

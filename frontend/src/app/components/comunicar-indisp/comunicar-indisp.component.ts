@@ -35,6 +35,7 @@ const ELEMENT_DATA: Indisponibilidade[] = [
   },
 ];
 
+
 @Component({
   selector: 'app-comunicar-indisp',
   templateUrl: './comunicar-indisp.component.html',
@@ -42,12 +43,25 @@ const ELEMENT_DATA: Indisponibilidade[] = [
 })
 export class ComunicarIndispComponent implements OnInit {
 
-  displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
-  dataSource: Indisponibilidade[] = ELEMENT_DATA;
 
-  dateFrom = new FormControl(new Date());
-  dateTo = new FormControl(new Date());
-  description = 'Teste';
+  add(){
+    this.dataSource = this.dataSource.concat({
+      datacriacao: new Date().toLocaleDateString('pt-PT'),
+      datainicio: this.dateFrom.toLocaleDateString('pt-PT'),
+      datafim: this.dateTo.toLocaleDateString('pt-PT'),
+      descricao: this.description
+    });
+  }
+
+  description: string; 
+
+
+  displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
+  dataSource= ELEMENT_DATA;
+
+  dateFrom: Date;
+  dateTo: Date;
+
 
   constructor() { }
 
