@@ -7,6 +7,7 @@ import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,9 @@ import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { LoginComponent } from './components/login/login.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
+
+import { ProfessorService } from './professor.service';
+import { ExameService } from './exame.service';
 
 @NgModule({
   declarations: [
@@ -49,8 +53,12 @@ import { CreateCalendarComponent } from './components/create-calendar/create-cal
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    ProfessorService,
+    ExameService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
