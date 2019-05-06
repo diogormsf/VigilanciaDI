@@ -1,14 +1,14 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer id="sidenav_css" class="sidenav"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)">
+  <mat-sidenav #drawer id="sidenav_css" class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
 
     <mat-nav-list id="listMenu" role="navigation">
-      <a href="login"><button id="sidebutton_active">Login</button></a>
-      <a href="assigned-finals"><button id="sidebutton_active">Exames para Vigiar</button></a>
-      <a href="#"><button id="sidebutton_inactive">Criar Vigilância</button></a>
-      <a href="#"><button id="sidebutton_inactive">Vigilâncias Criadas</button></a>
-      <a href="comunicar-indisp"><button id="sidebutton_inactive">Comunicar Indisponibilidade</button></a>
+      <a href="create-calendar"><button id="criarCal" class="sidebutton_inactive"
+          (click)="changeColor('criarCal')">Calendário</button></a>
+      <a href="assigned-finals"><button id="assFin" class="sidebutton_inactive" (click)="changeColor('assFin')">Exames
+          para Vigiar</button></a>
+      <a href="comunicar-indisp"><button id="comInd" class="sidebutton_inactive"
+          (click)="changeColor('comInd')">Comunicar Indisponibilidade</button></a>
     </mat-nav-list>
   </mat-sidenav>
 </mat-sidenav-container>
