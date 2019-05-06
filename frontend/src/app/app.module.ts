@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material';
 import { MatSidenavModule, MatButtonModule, MatIconModule, MatListModule } from '@angular/material';
 import { MatTableModule } from '@angular/material';
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import {MatSelectModule} from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +18,8 @@ import { AssignedFinalsComponent } from './components/assigned-finals/assigned-f
 import { HomeComponent } from './components/home/home.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { LoginComponent } from './components/login/login.component';
+import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
 
 import { ProfessorService } from './professor.service';
 import { ExameService } from './exame.service';
@@ -25,7 +31,9 @@ import { ExameService } from './exame.service';
     HomeComponent,
     MainNavComponent,
     ComunicarIndispComponent,
-    AssignedFinalsComponent
+    AssignedFinalsComponent,
+    LoginComponent,
+    CreateCalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +46,13 @@ import { ExameService } from './exame.service';
     MatIconModule,
     MatListModule,
     MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule
     HttpClientModule
   ],
   providers: [

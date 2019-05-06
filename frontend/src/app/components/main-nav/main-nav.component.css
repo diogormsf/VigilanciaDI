@@ -29,7 +29,7 @@
 }
 
 
-#sidebutton_active {
+.sidebutton_active {
   background-color: rgb(15, 35, 124);
   border: white;
   color: white;
@@ -39,7 +39,7 @@
   width: 100%;
 }
 
-#sidebutton_inactive {
+.sidebutton_inactive {
   background-color: rgb(38, 176, 211);
   border: white;
   color: white;
@@ -53,4 +53,8 @@
   background-color: black;
   width: 100%;
   padding-top: 0px;
+}
+
+mat-sidenav-container * {
+    height: minmax(min-content, min-content);
 }
