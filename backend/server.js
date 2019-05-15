@@ -64,7 +64,30 @@ router.route("/exames/delete/:id").get((req, res) => {
 });
 //-----------------------------------------------------------
 //-----------------------------------------------------------
+//-------------------Indisponibilidade-----------------------
+//retorna Indisponibilade de um professor
+router.route("/indisponibilidade/professor/:id").get((req, res) => {
+  Indisponibilidade.findByProfessor(req.params.id, (err, indisponibilidade) => {
+    if(err) console.log(err);
+    else res.json(indisponibilidade);
+  });
+});
 
+//adiciona indisponibilidade de um professor
+router.route("/indisponibilidade/add").post((req,res) => {
+  let indisponibilidade = new Indisponibilidade(req.body);
+  indisponibilidade
+    .save()
+    .then(indisponibilidade => {
+      res.status(200).json({ indisponibilidade: "Added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("Failed to create new record");
+    });
+});
+
+
+//-----------------------------------------------------------
 //------------------- Professor -----------------------------
 //retorna todos os professores
 router.route("/professores").get((req, res) => {
