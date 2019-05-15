@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-let Exame = new Schema({
+let ExameSchema = new Schema({
     codigo: {
         type: Number
     },
@@ -32,4 +32,4 @@ let Exame = new Schema({
     }
 });
 
-export default mongoose.model('Exame', Exame, "Exame");
+module.exports = mongoose.model('Exame', ExameSchema);

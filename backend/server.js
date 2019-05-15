@@ -3,9 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
-import Professor from "./models/Professor";
-import Exame from "./models/Exame";
-import Vigilancia from './models/Vigilancia';
+var exame_controller = require('./controllers/exameController');
 
 const app = express();
 const router = express.Router();
@@ -24,6 +22,11 @@ connection.once("open", () => {
   console.log("MongoDB database connection established succecssfully!");
 });
 
+
+// GET request for list of all Book items.
+router.get('/exames', exame_controller.exame_list);
+
+/* 
 //------------------- ROUTES -------------------------------
 //------------------- Exame --------------------------------
 //retorna todos os exames
@@ -103,6 +106,15 @@ router.route("/professores/delete/:id").get((req, res) => {
   });
 });
 //-----------------------------------------------------------
+//------------------- Vigilancia ----------------------------
+//retorn um exame pelo seu ID
+router.route("/vigilancia/:epoca").get((req, res) => {
+  Professor.find({}, (err, professores) => {
+    if (err) console.log(err);
+    else res.json(professores);
+  });
+});
+
 
 
 /* -------------------------------------------------------------
@@ -113,7 +125,20 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-------------------------------------------------------------- */
+------------------------------------------------------------- */ 
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
 
 app.use("/", router);
 
