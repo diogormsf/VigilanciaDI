@@ -1,13 +1,13 @@
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-let Exame = new Schema({
+let ExameSchema = new Schema({
     codigo: {
-        type: Number
-    },
-    disciplina: {
         type: String
+    },
+    unidadecurricular: {
+        type: {type: Schema.Types.ObjectId, ref: 'UnidadeCurricular'}
     },
     semestre: {
         type: Number 
@@ -18,18 +18,9 @@ let Exame = new Schema({
     data: {
         type: Date
     },
-    dia: {
-        type: String
-    },
-    inicio: {
-        type: Date
-    },
-    fim: {
-        type: Date
-    },
     sala: {
-        type: [String]
+        type: [{ type: Schema.Types.ObjectId, ref: 'Sala' }]
     }
 });
 
-export default mongoose.model('Exame', Exame, "Exame");
+module.exports = mongoose.model('Exame', ExameSchema);

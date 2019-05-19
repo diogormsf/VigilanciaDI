@@ -7,15 +7,15 @@ export interface UnidadeCurricular {
 export interface Vigilancia {
   unidadecurricular:string;
   professor: string;
-  data: Date;
+  data: string;
   epoca: Number;
 }
 
 const DATA: Vigilancia[] = [
-  {unidadecurricular: 'Sistemas Distribuidos',professor: 'Mário Calha', data: new Date(), epoca: 1},
-  {unidadecurricular: 'Sistemas Distribuidos',professor: 'Mário Calha', data: new Date(), epoca: 2},
-  {unidadecurricular: 'Projeto de Sistemas de Informação',professor: 'Carlos Duarte', data: new Date(), epoca: 1},
-  {unidadecurricular: 'Projeto de Sistemas de Informação',professor: 'Carlos Duarte', data: new Date(), epoca: 2},
+  {unidadecurricular: 'Sistemas Distribuidos',professor: 'Mário Calha', data: new Date().toLocaleDateString('pt-PT'), epoca: 1},
+  {unidadecurricular: 'Sistemas Distribuidos',professor: 'Mário Calha', data: new Date().toLocaleDateString('pt-PT'), epoca: 2},
+  {unidadecurricular: 'Projeto de Sistemas de Informação',professor: 'Carlos Duarte', data: new Date().toLocaleDateString('pt-PT'), epoca: 1},
+  {unidadecurricular: 'Projeto de Sistemas de Informação',professor: 'Carlos Duarte', data: new Date().toLocaleDateString('pt-PT'), epoca: 2},
 ];
 
 @Component({
