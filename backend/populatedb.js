@@ -9,9 +9,11 @@ if (!userArgs[0].startsWith('mongodb')) {
 */
 var async = require('async')
 var Exame = require('./models/Exame')
+var Vigilancia = require('./models/Vigilancia')
+var Professor = require('./models/Professor')
 var mongoose = require('mongoose');
 
-mongoose.connect("mongodb://localhost:27017/vigilanciadi", {
+mongoose.connect("mongodb+srv://admin:admin@cluster0-7elnd.azure.mongodb.net/local_library?retryWrites=true", {
   useNewUrlParser: true
 });
 mongoose.Promise = global.Promise;
@@ -19,6 +21,8 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var exames = []
+var professores = []
+var vigilancias = []
 
 function exameCreate(codigo, disciplina, semestre, epoca, data, dia, inicio, fim, sala, cb) {
   examedetail = { 
@@ -45,6 +49,42 @@ function exameCreate(codigo, disciplina, semestre, epoca, data, dia, inicio, fim
   });
 }
 
+function professorCreate(nome,estatuto, cb) {
+  professordetail = { 
+    nome: nome,
+    estatuto: estatuto
+  }
+
+  var professor = new Professor(professordetail);    
+  professor.save(function (err) {
+    if (err) {
+      cb(err, null)
+      return
+    }
+    console.log('New Exame: ' + professor);
+    professores.push(professor)
+    cb(null, professor)
+  });
+}
+
+function vigilanciaCreate(professor,exame, cb) {
+  vigilanciadetail = { 
+    professor: professor,
+    exame: exame
+  }
+
+  var vigilancia = new Vigilancia(vigilanciadetail);    
+  vigilancia.save(function (err) {
+    if (err) {
+      cb(err, null)
+      return
+    }
+    console.log('New Vigilancia: ' + vigilancia);
+    vigilancias.push(vigilancia)
+    cb(null, vigilancia)
+  });
+}
+
 function createExames(cb) {
     async.parallel([
         function(callback) {
@@ -60,8 +100,40 @@ function createExames(cb) {
         cb);
 }
 
+function createProfessores(cb) {
+  async.parallel([
+      function(callback) {
+        professorCreate(
+          'Mário Calha', 'Catedrático', callback);
+      },
+      function(callback) {
+        professorCreate(
+          'Carlos Duarte', 'Catedrático', callback);
+      }
+      ],
+      // optional callback''
+      cb);
+}
+
+function createVigilancias(cb) {
+  async.parallel([
+      function(callback) {
+        vigilanciaCreate(
+          professores[0],exames[0], callback);
+      },
+      function(callback) {
+        vigilanciaCreate(
+          professores[0],exames[0], callback);
+      }
+      ],
+      // optional callback''
+      cb);
+}
+
 async.series([
-    createExames
+    createExames,
+    createProfessores,
+    createVigilancias
 ],
 // Optional callback
 function(err, results) {

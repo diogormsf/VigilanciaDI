@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 
 let ExameSchema = new Schema({
     codigo: {
-        type: Number
-    },
-    disciplina: {
         type: String
+    },
+    unidadecurricular: {
+        type: {type: Schema.Types.ObjectId, ref: 'UnidadeCurricular'}
     },
     semestre: {
         type: Number 
@@ -18,17 +18,8 @@ let ExameSchema = new Schema({
     data: {
         type: Date
     },
-    dia: {
-        type: String
-    },
-    inicio: {
-        type: Date
-    },
-    fim: {
-        type: Date
-    },
     sala: {
-        type: [String]
+        type: [{ type: Schema.Types.ObjectId, ref: 'Sala' }]
     }
 });
 

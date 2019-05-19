@@ -1,145 +1,297 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
+const express = require('express')
+const app = express()
+const port = 4000
 
-var exame_controller = require('./controllers/exameController');
+var Exame = require('./models/Exame');
+var Professor = require('./models/Professor');
+var Vigilancia = require('./models/Vigilancia');
 
-const app = express();
-const router = express.Router();
-
-app.use(cors());
-app.use(bodyParser.json());
-
-//Mongoose connection alternative (localhost)
-//para usar, tem que ter o mongodb compass, criar uma DB local, criar uma DB vigilanciadi
-mongoose.connect("mongodb://localhost:27017/vigilanciadi", {
-  useNewUrlParser: true
-});
-const connection = mongoose.connection;
-
-connection.once("open", () => {
-  console.log("MongoDB database connection established succecssfully!");
-});
-
-
-// GET request for list of all Book items.
-router.get('/exames', exame_controller.exame_list);
-
-/* 
-//------------------- ROUTES -------------------------------
-//------------------- Exame --------------------------------
-//retorna todos os exames
-router.route("/exames").get((req, res) => {
-  Exame.find((err, exames) => {
-    if (err) console.log(err);
-    else res.json(exames);
-  });
-});
-
-//retorn um exame pelo seu ID
-router.route("/exames/:id").get((req, res) => {
-  Exame.findById(req.params.id, (err, exame) => {
-    if (err) console.log(err);
-    else res.json(exame);
-  });
-});
-
-//adiciona um exame
-router.route("/exames/add").post((req, res) => {
-  let exame = new Exame(req.body);
-  exame
-    .save()
-    .then(exame => {
-      res.status(200).json({ exame: "Added successfully" });
-    })
-    .catch(err => {
-      res.status(400).send("Failed to create new record");
-    });
-});
-
-//apaga um exame pelo seu ID
-router.route("/exames/delete/:id").get((req, res) => {
-  Exame.findByIdAndRemove({ _id: req.params.id }, (err, exames) => {
-    if (err) res.json(err);
-    else res.json("Remove successfully");
-  });
-});
-//-----------------------------------------------------------
-//-----------------------------------------------------------
-
-//------------------- Professor -----------------------------
-//retorna todos os professores
-router.route("/professores").get((req, res) => {
-  Professor.find({}, (err, professores) => {
-    if (err) console.log(err);
-    else res.json(professores);
-  });
-});
-
-//retorn um exame pelo seu ID
-router.route("/professores/:id").get((req, res) => {
-  Professor.findById(req.params.id, (err, professor) => {
-    if (err) console.log(err);
-    else res.json(professor);
-  });
-});
-
-//adiciona um exame
-router.route("/professores/add").post((req, res) => {
-  let professor = new Professor(req.body);
-  professor
-    .save()
-    .then(professor => {
-      res.status(200).json({ professor: "Added successfully" });
-    })
-    .catch(err => {
-      res.status(400).send("Failed to create new record");
-    });
-});
-
-//apaga um exame pelo seu ID
-router.route("/professores/delete/:id").get((req, res) => {
-  Professor.findByIdAndRemove({ _id: req.params.id }, (err, professores) => {
-    if (err) res.json(err);
-    else res.json("Remove successfully");
-  });
-});
-//-----------------------------------------------------------
-//------------------- Vigilancia ----------------------------
-//retorn um exame pelo seu ID
-router.route("/vigilancia/:epoca").get((req, res) => {
-  Professor.find({}, (err, professores) => {
-    if (err) console.log(err);
-    else res.json(professores);
-  });
-});
-
-
-
-/* -------------------------------------------------------------
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://admin:admin@cluster0-xa1jq.mongodb.net/test?retryWrites=true';
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+var mongoDB = "mongodb+srv://admin:admin@cluster0-7elnd.azure.mongodb.net/local_library?retryWrites=true";
+mongoose.connect(mongoDB, {
+  useNewUrlParser: true
+});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-------------------------------------------------------------- */ 
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+var ObjectId = require('mongoose').Types.ObjectId;
+
+
+app.get('/getAllExames', function (req, res, next) {
+
+  Exame.find({}, function (err, cursor) {
+    res.json(cursor);
+    cursor.forEach(function (doc) {
+      console.log(doc);
+    });
+  })
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.get('/getExameById', function (req, res, next) {
+
+  Exame.findById(req.query.id)
+    .populate('exame')
+    .exec(function (err, exameinstance) {
+      if (err) {
+        return next(err);
+      }
+      if (exameinstance == null) {
+        var err = new Error('Exame not found');
+        err.status = 404;
+        return next(err);
+      }
+      res.json(exameinstance);
+    })
 });
 
+app.get('/getAllProfessores', function (req, res, next) {
 
-app.use("/", router);
+  Professor.find({}, function (err, cursor) {
+    res.json(cursor);
+    cursor.forEach(function (doc) {
+      console.log(doc);
+    });
+  })
+});
 
-app.listen(4000, () => console.log(`Express server running on port 4000`));
+app.get('/getProfessorById', function (req, res, next) {
+
+  Professor.findById(req.query.id)
+    .populate('professor')
+    .exec(function (err, professorinstance) {
+      if (err) {
+        return next(err);
+      }
+      if (professorinstance == null) {
+        var err = new Error('Professor not found');
+        err.status = 404;
+        return next(err);
+      }
+      res.json(professorinstance);
+    })
+});
+
+app.get('/getAllVigilancias', function (req, res, next) {
+
+  Vigilancia.find()
+    .populate('professor').populate('exame')
+    .exec(function (err, list_vigilancias) {
+      if (err) {
+        return next(err);
+      }
+      res.json(list_vigilancias);
+    });
+});
+
+app.get('/getVigilanciasByProfessor', function (req, res, next) {
+
+  Vigilancia.find({
+      professor: req.query.idprofessor
+    })
+    .populate('professor').populate('exame')
+    .exec(function (err, list_vigilancias) {
+      if (err) {
+        return next(err);
+      }
+      res.json(list_vigilancias);
+    });
+});
+
+app.get('/addVigilancia', function (req, res, next) {
+
+  Exame.findById(req.query.exameid)
+    .populate('exame')
+    .exec(function (err, exameinstance) {
+      if (err) {
+        return next(err);
+      }
+      if (exameinstance == null) {
+        var err = new Error('Exame not found');
+        err.status = 404;
+        return next(err);
+      }
+      Professor.findById(req.query.professorid)
+        .populate('professor')
+        .exec(function (err, professorinstance) {
+          if (err) {
+            return next(err);
+          }
+          if (professorinstance == null) {
+            var err = new Error('Professor not found');
+            err.status = 404;
+            return next(err);
+          }
+
+          let vigilanciadetail = {
+            professor: professorinstance,
+            exame: exameinstance
+          }
+
+          var vigilancia = new Vigilancia(vigilanciadetail);
+          vigilancia.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+            res.json(vigilancia);
+          });
+        })
+    })
+
+
+});
+
+/**
+ * Receives epoca -> sends calendar
+ */
+app.get('/createCalendar', function (req, res, next) {
+
+  let availableProf = [];
+  let calendar = [];
+  Professor.find({}, function (err, allprofessores) {
+    allprofessores.forEach(function (elem) {
+      if (elem.sabatica === false && elem.gestor === false) {
+        availableProf.push(elem);
+      }
+    })
+    Exame.find({
+      epoca: req.query.epoca
+    }, function (err, allexames) {
+      if (allexames.length > availableProf.length) {
+        var err = new Error('Mais exames que professores disponiveis');
+        err.status = 400;
+        return next(err);
+      }
+      var i;
+      for (i = 0; i < availableProf.length; i++) {
+
+        let vigilanciadetail = {
+          professor: availableProf[i],
+          exame: exameinstance[i % allexames.length]
+        }
+        var vigilancia = new Vigilancia(vigilanciadetail);
+        vigilancia.save(function (err) {
+          if (err) {
+            return next(err);
+          }
+          calendar.push(vigilancia);
+        });
+      }
+      res.json(calendar);
+    })
+  })
+});
+
+app.get('/getVigilanciasResponsavel', function (req, res, next) {
+
+  let result = [];
+
+  Professor.findById(req.query.professorid)
+    .populate('professor')
+    .exec(function (err, professorinstance) {
+      if (err) {
+        return next(err);
+      }
+      if (professorinstance == null) {
+        var err = new Error('Professor not found');
+        err.status = 404;
+        return next(err);
+      }
+
+      Exame.find({}, function (err, allExames) {});
+
+      professorinstance.responsavel.populate('unidadecurricular').forEach(function (elem) {
+
+        allExames.forEach(function (ex) {
+          if (ex.unidadecurricular === elem) {
+
+            Vigilancia.find({
+                exame: ex
+              })
+              .populate('professor').populate('exame')
+              .exec(function (err, list_vigilancias) {
+                if (err) {
+                  return next(err);
+                }
+                result.push(list_vigilancias);
+              });
+          }
+        })
+
+      })
+      res.json(result);
+    })
+});
+
+app.get('/getExamesResponsavel', function (req, res, next) {
+
+  let result = [];
+  Professor.findById(req.query.professorid)
+    .populate('professor')
+    .exec(function (err, professorinstance) {
+      if (err) {
+        return next(err);
+      }
+      if (professorinstance == null) {
+        var err = new Error('Professor not found');
+        err.status = 404;
+        return next(err);
+      }
+      Exame.find({}, function (err, allExames) {
+
+        professorinstance.responsavel.populate('unidadecurricular').forEach(function (elem) {
+          allExames.forEach(function (ex) {
+            if (ex.unidadecurricular === elem) {
+              result.push(ex);
+            }
+          })
+        })
+      })
+    })
+});
+
+app.get('/addIndisponibilidade', function (req, res, next) {
+  Professor.findById(req.query.professorid)
+    .populate('professor')
+    .exec(function (err, professorinstance) {
+      if (err) {
+        return next(err);
+      }
+      if (professorinstance == null) {
+        var err = new Error('Professor not found');
+        err.status = 404;
+        return next(err);
+      }
+      let indisponibilidadedetail = {
+        professor: professorinstance,
+        inicio: req.query.inicio,
+        fim: req.query.fim,
+        justificacao: req.query.justificacao
+      }
+
+      var indisponibilidade = new Indisponibilidade(indisponibilidadedetail);
+      indisponibilidade.save(function (err) {
+        if (err) {
+          return next(err);
+        }
+        res.json(indisponibilidade);
+      });
+    })
+});
+
+/**
+ * status indisponibilidade:
+ * - disponivel
+ * - pendente
+ * - aceite
+ * - recusado
+ */
+app.get('/updateDisponibilidade', function (req, res, next){
+  Vigilancia.findOneAndUpdate({_id:req.query.vigilanciaid},{indisponibilidade: req.query.indisponibilidade},
+    true, function(err, vigilanciainstance){
+      res.json(vigilanciainstance);
+  });
+});
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
