@@ -15,8 +15,10 @@ export class MainNavComponent {
       document.getElementById('assFin').className = 'sidebutton_inactive';
     } else if(document.getElementById('criarCal').className === 'sidebutton_active'){
       document.getElementById('criarCal').className = 'sidebutton_inactive';
-    } else {
+    } else if(document.getElementById('comInd').className === 'sidebutton_active') {
       document.getElementById('comInd').className = 'sidebutton_inactive';
+    } else {
+      document.getElementById('loginBtn').className = 'sidebutton_inactive';
     }
     document.getElementById(id).className = 'sidebutton_active';
   }
