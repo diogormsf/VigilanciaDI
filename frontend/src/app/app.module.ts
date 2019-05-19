@@ -52,7 +52,7 @@ import { ExameService } from './exame.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
     HttpClientModule
   ],
   providers: [

@@ -1,18 +1,12 @@
-import mongoose from 'mongoose';
-import Professor from './Professor';
+var mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
 let Indisponibilidade = new Schema({
-	dataInicio: {
-		type: Date
-	},
-	dataFim: {
-		type: Date
-	},
-	professor: [
-		{ type: Schema.Types.ObjectId, ref: 'Professor'}
-	]
+    professor: { type: Schema.Types.ObjectId, ref: 'Professor' },
+    inicio: { type: Date },
+    fim: {type: Date},
+    justificacao: {type: String}
 });
 
-export default mongoose.model('Indisponibilidade', Indisponibilidade);
+module.exports = mongoose.model('Indisponibilidade', Indisponibilidade);

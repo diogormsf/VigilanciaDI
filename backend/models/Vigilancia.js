@@ -1,16 +1,11 @@
-import mongoose from 'mongoose';
-import Professor from './Professor';
-import Exame from './Exame';
+var mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
 let Vigilancia = new Schema({
-    professor: [
-        { type: Schema.Types.ObjectId, ref: 'Professor' }
-    ],
-    exame: [
-        { type: Schema.Types.ObjectId, ref: 'Exame' }
-    ]
+    professor: { type: Schema.Types.ObjectId, ref: 'Professor' },
+    exame: { type: Schema.Types.ObjectId, ref: 'Exame' },
+    indisponibilidade: {type: String}
 });
 
-export default mongoose.model('Vigilancia', Vigilancia);
+module.exports = mongoose.model('Vigilancia', Vigilancia);

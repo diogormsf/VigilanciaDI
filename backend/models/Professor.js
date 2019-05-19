@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
@@ -7,9 +7,16 @@ let Professor = new Schema({
         type: String
     },
     estatuto: {
-        type: String,
-        default: 'Normal'
-    }
+        type: String
+    },
+    sabatica: {
+        type: Boolean
+    },
+    gestor: {
+        type: Boolean
+    },
+    responsavel: [{
+        type: Schema.Types.ObjectId, ref: 'UnidadeCurricular'
+    }]
 });
-
-export default mongoose.model('Professor', Professor, 'Professor');
+module.exports = mongoose.model('Professor', Professor);
