@@ -26,6 +26,7 @@ export class AuthenticationService {
         user.password = password;
         user.firstName = 'Diogo';
         user.lastName = 'Fernandes';
+        user.type = 'responsavel';
         localStorage.setItem('currentUser', JSON.stringify(user));
 
         return this.currentUserSubject;
