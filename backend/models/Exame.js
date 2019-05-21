@@ -3,11 +3,8 @@ var mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let ExameSchema = new Schema({
-    codigo: {
-        type: String
-    },
     unidadecurricular: {
-        type: {type: Schema.Types.ObjectId, ref: 'UnidadeCurricular'}
+        type: Schema.Types.ObjectId, ref: 'UnidadeCurricular'
     },
     semestre: {
         type: Number 

@@ -3,8 +3,11 @@ const app = express()
 const port = 4000
 
 var Exame = require('./models/Exame');
+var UnidadeCurricular = require('./models/UnidadeCurricular');
+var Sala = require('./models/Sala');
 var Professor = require('./models/Professor');
 var Vigilancia = require('./models/Vigilancia');
+var Indisponibilidade = require('./models/Indisponibilidade');
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
@@ -21,18 +24,19 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 app.get('/getAllExames', function (req, res, next) {
 
-  Exame.find({}, function (err, cursor) {
-    res.json(cursor);
-    cursor.forEach(function (doc) {
-      console.log(doc);
-    });
-  })
+
+  Exame.find().populate('sala').populate('unidadecurricular')
+  .exec(function(err, examelist) {
+    console.log(examelist);
+    res.json(examelist);
+  });
+
 });
 
 app.get('/getExameById', function (req, res, next) {
 
   Exame.findById(req.query.id)
-    .populate('exame')
+    .populate('exame').populate('sala')
     .exec(function (err, exameinstance) {
       if (err) {
         return next(err);
@@ -47,12 +51,10 @@ app.get('/getExameById', function (req, res, next) {
 });
 
 app.get('/getAllProfessores', function (req, res, next) {
-
-  Professor.find({}, function (err, cursor) {
-    res.json(cursor);
-    cursor.forEach(function (doc) {
-      console.log(doc);
-    });
+  Professor.find()
+  .populate('responsavel')
+  .exec(function(err, listprof){
+    res.json(listprof);
   })
 });
 
@@ -143,7 +145,7 @@ app.get('/addVigilancia', function (req, res, next) {
 });
 
 /**
- * Receives epoca -> sends calendar
+ * Receives semestre -> sends calendar
  */
 app.get('/createCalendar', function (req, res, next) {
 
@@ -151,12 +153,13 @@ app.get('/createCalendar', function (req, res, next) {
   let calendar = [];
   Professor.find({}, function (err, allprofessores) {
     allprofessores.forEach(function (elem) {
-      if (elem.sabatica === false && elem.gestor === false) {
+      if (elem.sabatica === false && elem.gestor === false &&
+        elem.estatuto !== 'Catedrático' && elem.estatuto !== 'Associado') {
         availableProf.push(elem);
       }
     })
     Exame.find({
-      epoca: req.query.epoca
+      semestre: req.query.semestre
     }, function (err, allexames) {
       if (allexames.length > availableProf.length) {
         var err = new Error('Mais exames que professores disponiveis');
@@ -168,7 +171,7 @@ app.get('/createCalendar', function (req, res, next) {
 
         let vigilanciadetail = {
           professor: availableProf[i],
-          exame: exameinstance[i % allexames.length]
+          exame: allexames[i % allexames.length]
         }
         var vigilancia = new Vigilancia(vigilanciadetail);
         vigilancia.save(function (err) {
@@ -199,28 +202,28 @@ app.get('/getVigilanciasResponsavel', function (req, res, next) {
         return next(err);
       }
 
-      Exame.find({}, function (err, allExames) {});
+      Exame.find({}, function (err, allExames) {
+        professorinstance.responsavel.populate('unidadecurricular').forEach(function (elem) {
 
-      professorinstance.responsavel.populate('unidadecurricular').forEach(function (elem) {
-
-        allExames.forEach(function (ex) {
-          if (ex.unidadecurricular === elem) {
-
-            Vigilancia.find({
-                exame: ex
-              })
-              .populate('professor').populate('exame')
-              .exec(function (err, list_vigilancias) {
-                if (err) {
-                  return next(err);
-                }
-                result.push(list_vigilancias);
-              });
-          }
+          allExames.forEach(function (ex) {
+            if (ex.unidadecurricular === elem) {
+  
+              Vigilancia.find({
+                  exame: ex
+                })
+                .populate('professor').populate('exame')
+                .exec(function (err, list_vigilancias) {
+                  if (err) {
+                    return next(err);
+                  }
+                  result.push(list_vigilancias);
+                });
+            }
+          })
+  
         })
-
-      })
-      res.json(result);
+        res.json(result);
+      });
     })
 });
 
@@ -265,8 +268,8 @@ app.get('/addIndisponibilidade', function (req, res, next) {
       }
       let indisponibilidadedetail = {
         professor: professorinstance,
-        inicio: req.query.inicio,
-        fim: req.query.fim,
+        inicio: new Date(2019,3,10),
+        fim: new Date(2019,3,20),
         justificacao: req.query.justificacao
       }
 
@@ -279,6 +282,27 @@ app.get('/addIndisponibilidade', function (req, res, next) {
       });
     })
 });
+
+app.get('/getIndisponibilidade', function(req, res, next) {
+
+  let result = [];
+  Indisponibilidade.find({}, function (err, allInd) {
+    allInd.forEach(function(elem){
+      let exames = [];
+      Exame.find({"date": {"$gte": elem.inicio, "$lt": elem.fim}}, function(req, res, next){
+        res.forEach(function(ex){
+          exames.push(ex);
+        })
+      })
+      result.push(
+        {
+          'indisponibilidade': elem,
+          'exames': exames
+        }
+      );
+    })
+  })
+})
 
 /**
  * status indisponibilidade:
