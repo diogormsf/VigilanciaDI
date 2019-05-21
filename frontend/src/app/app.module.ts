@@ -23,6 +23,8 @@ import { CreateCalendarComponent } from './components/create-calendar/create-cal
 
 import { ProfessorService } from './professor.service';
 import { ExameService } from './exame.service';
+import { ConsultarVigilantesComponent } from './components/consultar-vigilantes/consultar-vigilantes.component';
+import { ConsultarSalasComponent } from './components/consultar-salas/consultar-salas.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ExameService } from './exame.service';
     ComunicarIndispComponent,
     AssignedFinalsComponent,
     LoginComponent,
-    CreateCalendarComponent
+    CreateCalendarComponent,
+    ConsultarVigilantesComponent,
+    ConsultarSalasComponent
   ],
   imports: [
     BrowserModule,

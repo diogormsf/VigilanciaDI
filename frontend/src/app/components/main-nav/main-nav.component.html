@@ -3,7 +3,7 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
 
     <mat-nav-list id="listMenu" role="navigation">
-        <a href="login"><button id="loginBtn" class="sidebutton_inactive"
+      <a href="login"><button id="loginBtn" class="sidebutton_inactive"
           (click)="changeColor('criarCal')">Login</button></a>
       <a href="create-calendar"><button id="criarCal" class="sidebutton_inactive"
           (click)="changeColor('criarCal')">Calendário</button></a>
@@ -11,6 +11,10 @@
           para Vigiar</button></a>
       <a href="comunicar-indisp"><button id="comInd" class="sidebutton_inactive"
           (click)="changeColor('comInd')">Comunicar Indisponibilidade</button></a>
+      <a href="consultar-vigilantes"><button id="comInd" class="sidebutton_inactive"
+          (click)="changeColor('comInd')">Consultar vigilantes</button></a>
+      <a href="consultar-salas"><button id="comInd" class="sidebutton_inactive"
+          (click)="changeColor('comInd')">Consultar Salas</button></a>
     </mat-nav-list>
   </mat-sidenav>
 </mat-sidenav-container>

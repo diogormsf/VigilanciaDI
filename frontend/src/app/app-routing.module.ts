@@ -6,6 +6,8 @@ import { ComunicarIndispComponent } from './components/comunicar-indisp/comunica
 import { LoginComponent } from './components/login/login.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
 import { CommonModule } from '@angular/common';
+import { ConsultarVigilantesComponent } from './components/consultar-vigilantes/consultar-vigilantes.component';
+import { ConsultarSalasComponent } from './components/consultar-salas/consultar-salas.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: 'create-calendar', component: CreateCalendarComponent },
   { path: 'assigned-finals', component: AssignedFinalsComponent },
   { path: 'comunicar-indisp', component: ComunicarIndispComponent },
+  { path: 'consultar-vigilantes', component: ConsultarVigilantesComponent },
+  { path: 'consultar-salas', component: ConsultarSalasComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 
