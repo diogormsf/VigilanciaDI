@@ -5,8 +5,8 @@ import { MatSidenavModule, MatButtonModule, MatIconModule, MatListModule } from 
 import { MatTableModule } from '@angular/material';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
-import {MatSelectModule} from '@angular/material/select';
+import { MatFormFieldModule, MatInputModule, MatTabsModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,8 +21,11 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { LoginComponent } from './components/login/login.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
 
-import { ProfessorService } from './professor.service';
-import { ExameService } from './exame.service';
+import { AuthenticationService } from './services/authentication.service';
+import { ExameService } from './services/exame.service';
+import { IndisponibilidadeService } from './services/indisponibilidade.service';
+import { ProfessorService } from './services/professor.service';
+import { VigilanciaService } from './services/vigilancia.service';
 
 @NgModule({
   declarations: [
@@ -52,12 +55,16 @@ import { ExameService } from './exame.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTabsModule,
     MatSelectModule,
     HttpClientModule
   ],
   providers: [
+    AuthenticationService,
+    ExameService,
+    IndisponibilidadeService,
     ProfessorService,
-    ExameService
+    VigilanciaService
   ],
   bootstrap: [AppComponent]
 })
