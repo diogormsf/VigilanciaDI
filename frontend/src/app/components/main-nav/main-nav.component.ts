@@ -38,6 +38,8 @@ export class MainNavComponent {
       document.getElementById('criarCal').className = 'sidebutton_inactive';
     } else if(document.getElementById('comInd').className === 'sidebutton_active') {
       document.getElementById('comInd').className = 'sidebutton_inactive';
+    } else if(document.getElementById('consInd').className === 'sidebutton_active') {
+      document.getElementById('consInd').className = 'sidebutton_inactive';
     } else {
       document.getElementById('loginBtn').className = 'sidebutton_inactive';
     }
