@@ -2,8 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssignedFinalsComponent } from './assigned-finals.component';
 
-
-
 describe('AssignedFinalsComponent', () => {
   let component: AssignedFinalsComponent;
   let fixture: ComponentFixture<AssignedFinalsComponent>;

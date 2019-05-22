@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { AssignedFinalsComponent } from './components/assigned-finals/assigned-finals.component';
 import { ComunicarIndispComponent } from './components/comunicar-indisp/comunicar-indisp.component';
+import { ConsultarIndispComponent } from './components/consultar-indisp/consultar-indisp.component';
 import { LoginComponent } from './components/login/login.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
 import { CommonModule } from '@angular/common';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'comunicar-indisp', component: ComunicarIndispComponent, canActivate: [AuthGuard] },
   { path: 'consultar-vigilantes', component: ConsultarVigilantesComponent, canActivate: [AuthGuard] },
   { path: 'consultar-salas', component: ConsultarSalasComponent, canActivate: [AuthGuard] },
+  { path: 'consultar-indisp', component: ConsultarIndispComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
