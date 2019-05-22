@@ -31,19 +31,19 @@ export class MainNavComponent {
     }
   }
 
-  changeColor(id) {
-    if(document.getElementById('assFin').className === 'sidebutton_active'){
-      document.getElementById('assFin').className = 'sidebutton_inactive';
-    } else if(document.getElementById('criarCal').className === 'sidebutton_active'){
-      document.getElementById('criarCal').className = 'sidebutton_inactive';
-    } else if(document.getElementById('comInd').className === 'sidebutton_active') {
-      document.getElementById('comInd').className = 'sidebutton_inactive';
-    } else if(document.getElementById('consInd').className === 'sidebutton_active') {
-      document.getElementById('consInd').className = 'sidebutton_inactive';
-    } else {
-      document.getElementById('loginBtn').className = 'sidebutton_inactive';
+  changeColor(event) {
+    if(document.getElementsByClassName('sidebutton_active')[0]) {
+      document.getElementsByClassName('sidebutton_active')[0].className = 'sidebutton_inactive';
     }
-    document.getElementById(id).className = 'sidebutton_active';
+    if(document.getElementById(event.target.id)) {
+      document.getElementById(event.target.id).className = 'sidebutton_active';
+    }
+  }
+
+  clearColor() {
+    if(document.getElementsByClassName('sidebutton_active')[0]) {
+      document.getElementsByClassName('sidebutton_active')[0].className = 'sidebutton_inactive';
+    }
   }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)

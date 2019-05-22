@@ -1,3 +1,4 @@
+import { MainNavComponent } from './../main-nav/main-nav.component';
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -19,18 +20,18 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private ngZone: NgZone
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
+    if(localStorage.getItem('currentUser')) {
+      this.router.navigateByUrl('');
+    }
+
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
-
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   get f() { return this.loginForm.controls; }
@@ -47,13 +48,11 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.username.value, this.f.password.value)
       .subscribe(
         data => {
-          console.log(this.returnUrl);
-          this.ngZone.run(() =>
-            this.router.navigate([this.returnUrl])
-          );
+          const link = document.createElement('a');
+          link.setAttribute('href', '');
+          link.click();
         },
         error => {
-          console.log(error);
           this.error = error;
           this.loading = false;
         }

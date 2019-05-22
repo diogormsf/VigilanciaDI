@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../../services/authentication.service';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -19,7 +19,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
-    this.router.navigateByUrl('/');
+    const link = document.createElement('a');
+    link.setAttribute('href', '');
+    link.click();
   }
 
 }
