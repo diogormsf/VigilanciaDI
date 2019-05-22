@@ -25,7 +25,6 @@ import { CreateCalendarComponent } from './components/create-calendar/create-cal
 import { AuthenticationService } from './services/authentication.service';
 import { ExameService } from './services/exame.service';
 import { IndisponibilidadeService } from './services/indisponibilidade.service';
-import { ConsIndisponibilidadeService } from './services/consindisponibilidade.service';
 import { ProfessorService } from './services/professor.service';
 import { VigilanciaService } from './services/vigilancia.service';
 
@@ -72,7 +71,6 @@ import { ConsultarSalasComponent } from './components/consultar-salas/consultar-
     AuthenticationService,
     ExameService,
     IndisponibilidadeService,
-    ConsIndisponibilidadeService,
     ProfessorService,
     VigilanciaService
   ],
