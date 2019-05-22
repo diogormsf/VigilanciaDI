@@ -1,0 +1,19 @@
+.assigned-finals-main {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: "1fr";
+    grid-template-rows: "40px 50px 1fr";
+    grid-template-areas:
+        "title"
+        "."
+        "table";
+}
+
+.assigned-finals-main-title {
+    grid-area: "title";
+}
+
+.assigned-finals-main-table {
+    padding: 30px 20px 20px 0px;
+    grid-area: "table";
+}
