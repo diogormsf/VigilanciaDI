@@ -27,6 +27,9 @@ import { IndisponibilidadeService } from './services/indisponibilidade.service';
 import { ProfessorService } from './services/professor.service';
 import { VigilanciaService } from './services/vigilancia.service';
 
+import { ConsultarVigilantesComponent } from './components/consultar-vigilantes/consultar-vigilantes.component';
+import { ConsultarSalasComponent } from './components/consultar-salas/consultar-salas.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,9 @@ import { VigilanciaService } from './services/vigilancia.service';
     ComunicarIndispComponent,
     AssignedFinalsComponent,
     LoginComponent,
-    CreateCalendarComponent
+    CreateCalendarComponent,
+    ConsultarVigilantesComponent,
+    ConsultarSalasComponent
   ],
   imports: [
     BrowserModule,
