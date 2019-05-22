@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-main-nav',
@@ -9,6 +10,21 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./main-nav.component.css']
 })
 export class MainNavComponent {
+
+  isLoggedIn: boolean;
+  currUserType: string;
+
+  constructor(private breakpointObserver: BreakpointObserver) {}
+
+  ngOnInit(): void {
+    this.isLoggedIn = localStorage.getItem('currentUser') != null;
+    if(this.isLoggedIn) {
+      const currUser = JSON.parse(localStorage.getItem('currentUser'));
+      this.currUserType = currUser.type;
+    } else {
+      this.currUserType = '';
+    }
+  }
 
   changeColor(id) {
     if(document.getElementById('assFin').className === 'sidebutton_active'){
@@ -27,7 +43,5 @@ export class MainNavComponent {
     .pipe(
       map(result => result.matches)
     );
-
-  constructor(private breakpointObserver: BreakpointObserver) {}
 
 }

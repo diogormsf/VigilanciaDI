@@ -5,7 +5,7 @@ import { MatSidenavModule, MatButtonModule, MatIconModule, MatListModule } from 
 import { MatTableModule } from '@angular/material';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MatTabsModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatTabsModule, MatMenuModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -56,6 +56,7 @@ import { VigilanciaService } from './services/vigilancia.service';
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
+    MatMenuModule,
     MatSelectModule,
     HttpClientModule
   ],
