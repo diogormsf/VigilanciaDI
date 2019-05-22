@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgIf } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-nav',
@@ -14,7 +15,11 @@ export class MainNavComponent {
   isLoggedIn: boolean;
   currUserType: string;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngOnInit(): void {
     this.isLoggedIn = localStorage.getItem('currentUser') != null;

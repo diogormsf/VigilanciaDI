@@ -2,7 +2,6 @@ import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -50,14 +49,16 @@ export class LoginComponent implements OnInit {
         data => {
           console.log(this.returnUrl);
           this.ngZone.run(() =>
-            this.router.navigateByUrl(this.returnUrl)
+            this.router.navigate([this.returnUrl])
           );
         },
         error => {
           console.log(error);
           this.error = error;
           this.loading = false;
-        });
+        }
+      );
+
   }
 
 

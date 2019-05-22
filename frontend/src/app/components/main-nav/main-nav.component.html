@@ -4,7 +4,7 @@
 
     <mat-nav-list id="listMenu" role="navigation">
 
-      <a href="login"><button id="loginBtn" class="sidebutton_inactive"
+      <a *ngIf="!isLoggedIn" href="login"><button id="loginBtn" class="sidebutton_inactive"
           (click)="changeColor('criarCal')">Login</button></a>
 
 
