@@ -1,16 +1,7 @@
+import { VigilanciaService } from './../../services/vigilancia.service';
+import { Exame } from './../../models/exame';
 import { Component, OnInit } from '@angular/core';
-
-export interface Exame {
-  unidadecurricular: string;
-  data: String;
-  horario: string;
-  sala: string;
-}
-
-const ELEMENT_DATA: Exame[] = [
-  {unidadecurricular: 'Projeto de Sistemas de Informação', data: new Date().toLocaleDateString('pt-PT'), horario: '12:00 - 15:00', sala: '1.2.32'},
-  {unidadecurricular: 'Introdução à Programação', data: new Date().toLocaleDateString('pt-PT'), horario: '16:00 - 19:00', sala: '6.2.34'}
-];
+import { Vigilancia } from 'src/app/models/vigilancia';
 
 @Component({
   selector: 'app-assigned-finals',
@@ -20,11 +11,34 @@ const ELEMENT_DATA: Exame[] = [
 export class AssignedFinalsComponent implements OnInit {
 
   displayedColumns: string[] = ['unidadecurricular', 'data', 'horario', 'sala'];
-  dataSource = ELEMENT_DATA;
+  vigilancias: Vigilancia[];
+  exames: Exame[];
 
-  constructor() { }
+  constructor(
+    private vigilanciaService: VigilanciaService
+  ) { }
 
   ngOnInit() {
+    this.fetchVigilancias();
+    this.getExamesFromVigilancias();
+    console.log(this.exames);
+  }
+
+  fetchVigilancias() {
+    const professorId = JSON.parse(localStorage.getItem('currentUser')).id;
+    this.vigilanciaService.getVigilanciasByProfessor(professorId)
+    .subscribe((data: Vigilancia[]) => {
+      console.log(data);
+      this.vigilancias = data;
+      console.log('Data requested ... ');
+      console.log(this.vigilancias);
+    });
+  }
+
+  getExamesFromVigilancias() {
+    this.vigilancias.forEach(elem => {
+      this.exames.push(elem.exame);
+    });
   }
 
 }

@@ -23,12 +23,13 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
         const user: User = new User();
-        user.id = 1;
+        user.id = '5ce41b885855493424632072';
         user.username = username;
-        user.password = password;
-        user.firstName = 'Diogo';
-        user.lastName = 'Fernandes';
-        user.type = 'responsavel';
+        user.nome = 'MÁRIO JOÃO BARATA CALHA';
+        user.responsavel = ['5ce41b86585549342463206c'];
+        user.estatuto = 'Auxiliar';
+        user.sabatica = false;
+        user.gestor = false;
         localStorage.setItem('currentUser', JSON.stringify(user));
 
         return this.currentUserSubject;
