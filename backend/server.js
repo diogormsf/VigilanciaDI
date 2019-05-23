@@ -19,54 +19,61 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-app.get('/login', function(req, res, next){
+app.get('/login', function (req, res, next) {
 
-  switch(req.query.username){
+  switch (req.query.username) {
     case 'mjfonseca@ciencias.ulisboa.pt':
-      if(req.query.password === 'admin'){
+      if (req.query.password === 'admin') {
         res.json({
-          'result':'success',
+          'result': 'success',
           'role': 'gestor',
-          'professorid':'5ce41b885855493424632074'});
-      } else{
+          'professorid': '5ce41b885855493424632074'
+        });
+      } else {
         res.json({
-          'result':'wrong password',
+          'result': 'wrong password',
           'role': undefined,
-          'professorid': undefined});
+          'professorid': undefined
+        });
       }
       break;
     case 'caduarte@ciencias.ulisboa.pt':
-        if(req.query.password === 'admin'){
-          res.json({
-            'result':'success',
-            'role': 'responsavel',
-            'professorid':'5ce41b885855493424632073'});
-        } else{
-          res.json({
-            'result':'wrong password',
-            'role': undefined,
-            'professorid': undefined});
-        }
-        break;
+      if (req.query.password === 'admin') {
+        res.json({
+          'result': 'success',
+          'role': 'responsavel',
+          'professorid': '5ce41b885855493424632073'
+        });
+      } else {
+        res.json({
+          'result': 'wrong password',
+          'role': undefined,
+          'professorid': undefined
+        });
+      }
+      break;
     case 'ivmedeiros@ciencias.ulisboa.pt':
-        if(req.query.password === 'admin'){
-          res.json({
-            'result':'success',
-            'role': undefined,
-            'professorid': '5ce41b885855493424632079'});
-        } else{
-          res.json({
-            'result':'wrong password',
-            'role': undefined,
-            'professorid':undefined});
-        }
-        break;
-        default:
-          res.json({
-            'result':'user not found',
-            'role': undefined,
-            'professorid':undefined});
-          break;
+      if (req.query.password === 'admin') {
+        res.json({
+          'result': 'success',
+          'role': undefined,
+          'professorid': '5ce41b885855493424632079'
+        });
+      } else {
+        res.json({
+          'result': 'wrong password',
+          'role': undefined,
+          'professorid': undefined
+        });
+      }
+      break;
+    default:
+      res.json({
+        'result': 'user not found',
+        'role': undefined,
+        'professorid': undefined
+      });
+      break;
   }
 })
 
@@ -126,7 +133,27 @@ app.get('/getProfessorById', function (req, res, next) {
 app.get('/getAllVigilancias', function (req, res, next) {
 
   Vigilancia.find()
-    .populate('professor').populate('exame')
+    .populate('professor').populate('exame').populate({
+      path: 'exame',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'unidadecurricular'
+      }
+    })
+    .populate({
+      path: 'exame',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'sala'
+      }
+    })
+    .populate({
+      path: 'professor',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'responsavel'
+      }
+    })
     .exec(function (err, list_vigilancias) {
       if (err) {
         return next(err);
@@ -140,7 +167,27 @@ app.get('/getVigilanciasByProfessor', function (req, res, next) {
   Vigilancia.find({
       professor: req.query.idprofessor
     })
-    .populate('professor').populate('exame')
+    .populate('professor').populate('exame').populate({
+      path: 'exame',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'unidadecurricular'
+      }
+    })
+    .populate({
+      path: 'exame',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'sala'
+      }
+    })
+    .populate({
+      path: 'professor',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'responsavel'
+      }
+    })
     .exec(function (err, list_vigilancias) {
       if (err) {
         return next(err);
@@ -154,7 +201,27 @@ app.get('/getVigilanciasBySemestre', function (req, res, next) {
   let semestre = []
 
   Vigilancia.find()
-    .populate('professor').populate('exame')
+    .populate('professor').populate('exame').populate({
+      path: 'exame',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'unidadecurricular'
+      }
+    })
+    .populate({
+      path: 'exame',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'sala'
+      }
+    })
+    .populate({
+      path: 'professor',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: {
+        path: 'responsavel'
+      }
+    })
     .exec(function (err, list_vigilancias) {
       if (err) {
         return next(err);
@@ -166,7 +233,6 @@ app.get('/getVigilanciasBySemestre', function (req, res, next) {
       })
       res.json(semestre);
     })
-
 });
 
 
@@ -209,8 +275,6 @@ app.get('/addVigilancia', function (req, res, next) {
           });
         })
     })
-
-
 });
 
 /**
