@@ -19,6 +19,51 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.get('/login', function(req, res, next){
+
+  switch(req.query.username){
+    case 'mjfonseca@ciencias.ulisboa.pt':
+      if(req.query.password === 'admin'){
+        res.json({
+          'result':'success',
+          'role': 'gestor',
+          'professorid':'5ce41b885855493424632074'});
+      } else{
+        res.json({
+          'result':'wrong password',
+          'role': undefined,
+          'professorid': undefined});
+      }
+      break;
+    case 'caduarte@ciencias.ulisboa.pt':
+        if(req.query.password === 'admin'){
+          res.json({
+            'result':'success',
+            'role': 'gestor',
+            'professorid':'5ce41b885855493424632073'});
+        } else{
+          res.json({
+            'result':'wrong password',
+            'role': undefined,
+            'professorid': undefined});
+        }
+        break;
+    case 'ivmedeiros@ciencias.ulisboa.pt':
+        if(req.query.password === 'admin'){
+          res.json({
+            'result':'success',
+            'role': 'gestor',
+            'professorid': '5ce41b885855493424632079'});
+        } else{
+          res.json({
+            'result':'wrong password',
+            'role': undefined,
+            'professorid':undefined});
+        }
+        break;
+  }
+})
+
 app.get('/getAllExames', function (req, res, next) {
 
 
