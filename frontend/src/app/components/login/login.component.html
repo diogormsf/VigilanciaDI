@@ -1,23 +1,26 @@
-<div class="login-main">
-  <div class="login-main-logo">
-      <img id="logoFCUL" src="assets/img/fcul_logo.png" alt="FCUL logo">
-  </div>
-  <div class="login-main-title">
-    <span>Vigilânia de Exames</span>
-  </div>
-  <div class="login-main-usernameLabel">
-    <span>Utilizador:</span>
-  </div>
-  <div class="login-main-usernameInput">
-      <input id="userInput">
-  </div>
-  <div class="login-main-passLabel">
-    <span>Palavra-passe:</span>
-  </div>
-  <div class="login-main-passInput">
-      <input id="passInput">
-  </div>
-  <div class="login-main-button">
-      <button id="logButton"mat-button>LOG IN</button>
-  </div>
-</div>
+
+  <form class="login-main" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <img id="logoFCUL" src="assets/img/fcul_logo.png" alt="FCUL logo">
+
+    <span class="login-main-title">Vigilância de Exames</span>
+
+    <div class="login-main-usernameArea">
+      <mat-form-field class="usernameFormField">
+        <label for="username">Username</label>
+        <input matInput type="text" formControlName="username" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+      </mat-form-field>
+    </div>
+
+    <div class="login-main-passArea">
+      <mat-form-field class="passFormField">
+        <label for="password">Password</label>
+        <input matInput type="password" formControlName="password" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+      </mat-form-field>
+    </div>
+
+    <div class="login-main-button" class="form-group">
+      <button mat-button [disabled]="loading">Login</button>
+    </div>
+  </form>

@@ -3,8 +3,12 @@
     <a href="home"><img id="logoImg" src="assets/img/fcul_logo.png" alt="" /></a>
   </div>
   <span id="titleToolbar">Vigilancia DI</span>
-  <div id="userArea">
+  <div id="userArea" [matMenuTriggerFor]="menu">
     <img id="userImg" src="assets/img/user_logo.png" alt="" />
     <span id="userId">User</span>
   </div>
 </mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="logout()">Logout</button>
+</mat-menu>

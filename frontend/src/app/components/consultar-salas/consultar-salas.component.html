@@ -1,24 +1,26 @@
+
+
 <div class="assigned-finals-main">
   <div class="assigned-finals-main-title">
-    <span class="title">Exames atribuídos</span>
+    <span class="title">Consultar Salas</span>
   </div>
   <div class="assigned-finals-main-table">
-    <table mat-table [dataSource]="exames" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="unidadecurricular">
-        <th mat-header-cell *matHeaderCellDef> Unidade Curricular </th>
+        <th mat-header-cell *matHeaderCellDef> Disciplina </th>
         <td mat-cell *matCellDef="let exame"> {{exame.unidadecurricular}} </td>
-      </ng-container>
-      <ng-container matColumnDef="data">
-        <th mat-header-cell *matHeaderCellDef> Data </th>
-        <td mat-cell *matCellDef="let exame"> {{exame.data}} </td>
-      </ng-container>
-      <ng-container matColumnDef="horario">
-        <th mat-header-cell *matHeaderCellDef> Horário </th>
-        <td mat-cell *matCellDef="let exame"> {{exame.horario}} </td>
       </ng-container>
       <ng-container matColumnDef="sala">
         <th mat-header-cell *matHeaderCellDef> Sala </th>
         <td mat-cell *matCellDef="let exame"> {{exame.sala}} </td>
+      </ng-container>
+      <ng-container matColumnDef="lotacaoNormal">
+        <th mat-header-cell *matHeaderCellDef> Lotação normal </th>
+        <td mat-cell *matCellDef="let exame"> {{exame.lotacaoNormal}} </td>
+      </ng-container>
+      <ng-container matColumnDef="lotacaoExame">
+        <th mat-header-cell *matHeaderCellDef>  Lotação em exame  </th>
+        <td mat-cell *matCellDef="let exame"> {{exame.lotacaoExame}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
