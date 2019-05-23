@@ -3,7 +3,7 @@
     <span class="title">Exames atribuídos</span>
   </div>
   <div class="assigned-finals-main-table">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="exames" class="mat-elevation-z8">
       <ng-container matColumnDef="unidadecurricular">
         <th mat-header-cell *matHeaderCellDef> Unidade Curricular </th>
         <td mat-cell *matCellDef="let exame"> {{exame.unidadecurricular}} </td>

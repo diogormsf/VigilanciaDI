@@ -1,9 +1,10 @@
 export class User {
-  id: number;
   username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  type: string;
+  id: string;
+  nome: string;
+  responsavel: [string];
+  estatuto: string;
+  sabatica: boolean;
+  gestor: boolean;
   token?: string;
 }
