@@ -39,7 +39,7 @@ app.get('/login', function(req, res, next){
         if(req.query.password === 'admin'){
           res.json({
             'result':'success',
-            'role': 'gestor',
+            'role': 'responsavel',
             'professorid':'5ce41b885855493424632073'});
         } else{
           res.json({
@@ -52,7 +52,7 @@ app.get('/login', function(req, res, next){
         if(req.query.password === 'admin'){
           res.json({
             'result':'success',
-            'role': 'gestor',
+            'role': undefined,
             'professorid': '5ce41b885855493424632079'});
         } else{
           res.json({
@@ -61,6 +61,12 @@ app.get('/login', function(req, res, next){
             'professorid':undefined});
         }
         break;
+        default:
+          res.json({
+            'result':'user not found',
+            'role': undefined,
+            'professorid':undefined});
+          break;
   }
 })
 
