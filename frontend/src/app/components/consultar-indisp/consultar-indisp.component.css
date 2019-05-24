@@ -1,0 +1,25 @@
+.create-calendar-main{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.create-calendar-main-tabBar {
+    margin-top: 20px;
+}
+
+.create-calendar-main-genButton {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.create-calendar-main-results{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px 20px 10px;
+}
+
+#dropdownUnidade {
+    width: 30%;
+}
