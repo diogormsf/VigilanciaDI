@@ -5,4 +5,10 @@ export class Indisponibilidade {
   inicio: Date;
   fim: Date;
   justificacao: string;
+
+  deserialize(input: any): Indisponibilidade {
+    Object.assign(this, input);
+    this.professor = new Professor().deserialize(input.professor);
+    return this;
+  }
 }

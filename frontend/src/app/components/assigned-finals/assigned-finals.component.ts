@@ -20,7 +20,6 @@ export class AssignedFinalsComponent implements OnInit {
 
   ngOnInit() {
     this.fetchVigilancias();
-    this.getExamesFromVigilancias();
     console.log(this.exames);
   }
 
@@ -32,12 +31,9 @@ export class AssignedFinalsComponent implements OnInit {
       this.vigilancias = data;
       console.log('Data requested ... ');
       console.log(this.vigilancias);
-    });
-  }
-
-  getExamesFromVigilancias() {
-    this.vigilancias.forEach(elem => {
-      this.exames.push(elem.exame);
+      this.vigilancias.forEach(elem => {
+        this.exames.push(elem.exame);
+      });
     });
   }
 
