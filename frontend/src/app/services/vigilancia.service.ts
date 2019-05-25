@@ -43,4 +43,13 @@ export class VigilanciaService {
     return this.http.get<Vigilancia[]>(`${this.uri}/getVigilanciasResponsavel`, { params: params })
     .pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))));
   }
+
+  getVigilanciasBySemestre(semestre) {
+    let params = new HttpParams();
+
+    params = params.append('semestre', semestre);
+
+    return this.http.get<Vigilancia[]>(`${this.uri}/getVigilanciasBySemestre`, { params: params })
+    .pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))));
+  }
 }

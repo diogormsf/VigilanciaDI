@@ -28,6 +28,21 @@ export class CreateCalendarComponent implements OnInit {
 
   isGenerated: Array<boolean>;
   currIndex: number;
+  displayedColumns: string[] = ['professor', 'data', 'epoca'];
+  dataSource = [DATA, DATA];
+
+  constructor() { }
+
+  ngOnInit() {
+    this.isGenerated = [false, false];
+    this.currIndex = 0;
+
+
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.currIndex = tabChangeEvent.index;
+  }
 
   unidades: UnidadeCurricular[] = [
     { name: 'Principios da Programação' },
@@ -43,27 +58,11 @@ export class CreateCalendarComponent implements OnInit {
     console.log(uni);
     this.dataSource = DATA;
     function filterByUC(element, index, array) {
-      return (element.unidadecurricular == uni);
+      return (element.unidadecurricular === uni);
     }
     const newDataSource = this.dataSource.filter(filterByUC);
     this.dataSource = newDataSource;
     console.log(newDataSource);
-  }
-
-  displayedColumns: string[] = ['professor', 'data', 'epoca'];
-  dataSource = DATA;
-
-  constructor() { }
-
-  ngOnInit() {
-    this.isGenerated = [false, false];
-    this.currIndex = 0;
-  }
-
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.currIndex = tabChangeEvent.index;
-    console.log(this.isGenerated[this.currIndex]);
-    console.log(tabChangeEvent);
   }
 
 }
