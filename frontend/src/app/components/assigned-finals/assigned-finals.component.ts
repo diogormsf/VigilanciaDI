@@ -19,26 +19,26 @@ export class AssignedFinalsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.vigilancias = [];
+    this.exames = [];
     this.fetchVigilancias();
-    this.getExamesFromVigilancias();
     console.log(this.exames);
   }
 
   fetchVigilancias() {
     const professorId = JSON.parse(localStorage.getItem('currentUser')).id;
     this.vigilanciaService.getVigilanciasByProfessor(professorId)
-    .subscribe((data: Vigilancia[]) => {
-      console.log(data);
-      this.vigilancias = data;
-      console.log('Data requested ... ');
-      console.log(this.vigilancias);
-    });
+      .subscribe(data => this.parseVigilancias(data));
   }
 
-  getExamesFromVigilancias() {
+  parseVigilancias(data) {
+    this.vigilancias = data;
+    console.log('Data requested ... ');
+    console.log(this.vigilancias);
     this.vigilancias.forEach(elem => {
-      this.exames.push(elem.exame);
+      this.exames.push(elem.getExame());
     });
+    this.exames = [...this.exames];
   }
 
 }
