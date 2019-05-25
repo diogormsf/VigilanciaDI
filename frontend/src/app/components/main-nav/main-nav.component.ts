@@ -13,7 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MainNavComponent {
 
   isLoggedIn: boolean;
-  currUserType: string;
+  ehResponsavel: boolean;
+  ehGestor: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,11 +24,12 @@ export class MainNavComponent {
 
   ngOnInit(): void {
     this.isLoggedIn = localStorage.getItem('currentUser') != null;
+    this.ehResponsavel = false;
+    this.ehGestor = false;
     if(this.isLoggedIn) {
       const currUser = JSON.parse(localStorage.getItem('currentUser'));
-      this.currUserType = currUser.type;
-    } else {
-      this.currUserType = '';
+      this.ehResponsavel = currUser.responsavel.length > 0;
+      this.ehGestor = currUser.gestor;
     }
   }
 
