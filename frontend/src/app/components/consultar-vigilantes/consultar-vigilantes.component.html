@@ -1,26 +1,24 @@
-
-
 <div class="assigned-finals-main">
   <div class="assigned-finals-main-title">
     <span class="title">Vigilantes Atribuidos</span>
   </div>
   <div class="assigned-finals-main-table">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="vigilancias" class="mat-elevation-z8">
       <ng-container matColumnDef="unidadecurricular">
         <th mat-header-cell *matHeaderCellDef> Disciplina </th>
-        <td mat-cell *matCellDef="let exame"> {{exame.unidadecurricular}} </td>
+        <td mat-cell *matCellDef="let vigilancia"> {{vigilancia.exame.unidadecurricular.nome}} </td>
       </ng-container>
       <ng-container matColumnDef="data">
         <th mat-header-cell *matHeaderCellDef> Data do exame </th>
-        <td mat-cell *matCellDef="let exame"> {{exame.data}} </td>
-      </ng-container>
-      <ng-container matColumnDef="nomeVigi">
-        <th mat-header-cell *matHeaderCellDef> Nome dos vigilantes do exame </th>
-        <td mat-cell *matCellDef="let exame"> {{exame.nomeVigi}} </td>
+        <td mat-cell *matCellDef="let vigilancia"> {{vigilancia.exame.data}} </td>
       </ng-container>
       <ng-container matColumnDef="sala">
         <th mat-header-cell *matHeaderCellDef>  Salas do exame  </th>
-        <td mat-cell *matCellDef="let exame"> {{exame.sala}} </td>
+        <td mat-cell *matCellDef="let vigilancia"> {{vigilancia.exame.sala}} </td>
+      </ng-container>
+      <ng-container matColumnDef="nomeVigi">
+        <th mat-header-cell *matHeaderCellDef> Nome dos vigilantes do exame </th>
+        <td mat-cell *matCellDef="let vigilancia"> {{vigilancia.professor.nome}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

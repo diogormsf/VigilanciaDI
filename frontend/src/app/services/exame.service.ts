@@ -14,7 +14,8 @@ export class ExameService {
   constructor(private http: HttpClient) { }
 
   getAllExames() {
-    return this.http.get(`${this.uri}/getAllExames`);
+    return this.http.get<Exame[]>(`${this.uri}/getAllExames`)
+    .pipe(map(data => data.map(elem => new Exame().deserialize(elem))));
   }
 
   getExameById(id) {
@@ -22,7 +23,8 @@ export class ExameService {
 
     params = params.append('id', id);
 
-    return this.http.get(`${this.uri}/getExameById`, { params: params });
+    return this.http.get<Exame[]>(`${this.uri}/getExameById`, { params: params })
+    .pipe(map(data => data.map(elem => new Exame().deserialize(elem))));
   }
 
   getExamesResponsavel(id) {
