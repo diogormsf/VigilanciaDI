@@ -12,4 +12,8 @@ export class Vigilancia {
     this.exame = new Exame().deserialize(input.exame);
     return this;
   }
+
+  getExame(): Exame {
+    return this.exame;
+  }
 }
