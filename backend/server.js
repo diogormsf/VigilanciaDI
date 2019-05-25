@@ -566,16 +566,25 @@ app.get('/updateDisponibilidade', function (req, res, next) {
         });
 });
 
-app.get('/trocarVigilancia', function (req, res, next) {
+app.get('/trocarVigilancias', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
 
     Vigilancia.findOneAndUpdate({
-            _id: req.query.vigilanciaid
+            _id: req.query.vigilancia1
         }, {
-            indisponibilidade: req.query.indisponibilidade
+            professor: req.query.professor2
         },
-        function (err, vigilanciainstance) {
-            res.json(vigilanciainstance);
+        function (err, vigilanciainstance1) {
+            Vigilancia.findOneAndUpdate({
+                _id: req.query.vigilancia2
+            }, {
+                professor: req.query.professor1
+            },
+            function (err, vigilanciainstance2) {
+                res.json({
+                    'result': 'success'
+                });
+            });
         });
 });
 
