@@ -24,12 +24,12 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(localStorage.getItem('currentUser')) {
+    if (localStorage.getItem('currentUser')) {
       this.router.navigateByUrl('');
     }
 
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      username: ['', Validators.required, Validators.email],
       password: ['', Validators.required]
     });
   }
@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.username.value, this.f.password.value)
       .subscribe(
         data => {
+          data['username'] = this.f.username.value;
+          localStorage.setItem('currentUser', JSON.stringify(data));
           const link = document.createElement('a');
           link.setAttribute('href', '');
           link.click();
@@ -57,7 +59,12 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         }
       );
+  }
 
+  getErrorMessage() {
+    return this.loginForm.hasError('required') ? 'You must enter a value' :
+      this.loginForm.hasError('email') ? 'Not a valid email' :
+        '';
   }
 
 

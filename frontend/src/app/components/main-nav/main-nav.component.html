@@ -8,7 +8,7 @@
         <button id="loginBtn" class="sidebutton_inactive" (click)="changeColor($event)">Login</button>
       </a>
 
-      <a *ngIf="isLoggedIn" routerLink="create-calendar">
+      <a *ngIf="isLoggedIn && ehGestor" routerLink="create-calendar">
         <button id="criarCal" class="sidebutton_inactive" (click)="changeColor($event)">Gerar Calendário</button>
       </a>
 
@@ -20,15 +20,15 @@
         <button id="comInd" class="sidebutton_inactive" (click)="changeColor($event)">Comunicar Indisponibilidade</button>
       </a>
 
-      <a *ngIf="isLoggedIn" routerLink="consultar-vigilantes">
+      <a *ngIf="isLoggedIn && ehResponsavel" routerLink="consultar-vigilantes">
         <button id="consVig" class="sidebutton_inactive" (click)="changeColor($event)">Consultar vigilantes</button>
       </a>
 
-      <a *ngIf="isLoggedIn" routerLink="consultar-salas">
+      <a *ngIf="isLoggedIn && ehResponsavel" routerLink="consultar-salas">
         <button id="consSal" class="sidebutton_inactive" (click)="changeColor($event)">Consultar Salas</button>
       </a>
 
-      <a *ngIf="isLoggedIn" routerLink="consultar-indisp">
+      <a *ngIf="isLoggedIn && ehGestor" routerLink="consultar-indisp">
         <button id="consInd" class="sidebutton_inactive" (click)="changeColor($event)">Consultar Indisponibilidade</button>
       </a>
     </mat-nav-list>
