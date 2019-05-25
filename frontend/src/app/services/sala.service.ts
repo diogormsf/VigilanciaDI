@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Vigilancia } from 'src/app/models/vigilancia';
 import { map } from 'rxjs/internal/operators/map';
 import { Observable, forkJoin } from 'rxjs';
+import { Exame } from '../models/exame';
 
 
 @Injectable({
@@ -19,12 +20,6 @@ export class SalaService {
     return this.http.get(`${this.uri}/getAllSalas`);
   }
 
-  processSalasUnidadeCurr() {
-
-    return forkJoin(
-    this.http.get(`${this.uri}/getAllSalas`),
-    this.http.get<Vigilancia[]>(`${this.uri}/getAllVigilancias`).pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))))
-    );
-  }
+ 
 
 }
