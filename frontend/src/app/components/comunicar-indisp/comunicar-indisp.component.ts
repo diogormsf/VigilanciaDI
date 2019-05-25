@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl } from '@angular/forms';
+import { IndisponibilidadeService } from './../../services/indisponibilidade.service';
 
 export interface Indisponibilidade {
   datacriacao: String;
@@ -43,6 +44,7 @@ const ELEMENT_DATA: Indisponibilidade[] = [
 })
 export class ComunicarIndispComponent implements OnInit {
 
+  indisponibilidadeUser: Indisponibilidade[];
 
   add(){
     this.dataSource = this.dataSource.concat({
@@ -52,20 +54,20 @@ export class ComunicarIndispComponent implements OnInit {
       descricao: this.description
     });
   }
-
   description: string; 
-
-
   displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
   dataSource= ELEMENT_DATA;
-
   dateFrom: Date;
   dateTo: Date;
 
-
-  constructor() { }
+  constructor( private indisponibilidadeService: IndisponibilidadeService) { }
 
   ngOnInit() {
+    this.indisponibilidadeUser = [];
+    this.fetchIndisponibilidadeUSER();
   }
 
+  fetchIndisponibilidadeUSER() {
+    
+  }
 }
