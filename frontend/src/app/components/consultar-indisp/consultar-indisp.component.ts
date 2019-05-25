@@ -1,69 +1,97 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material';
+import { ProfessorService } from './../../services/professor.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
-export interface UnidadeCurricular {
+export interface nomeProfessores {
   name: string;
 }
 
-export interface Vigilancia {
-  unidadecurricular: string;
-  professor: string;
-  data: string;
-  epoca: Number;
-}
-
-const DATA: Vigilancia[] = [
-  { unidadecurricular: 'Sistemas Distribuidos', professor: 'Mário Calha', data: new Date().toLocaleDateString('pt-PT'), epoca: 1 },
-  { unidadecurricular: 'Sistemas Distribuidos', professor: 'Mário Calha', data: new Date().toLocaleDateString('pt-PT'), epoca: 2 },
-  { unidadecurricular: 'Projeto de Sistemas de Informação', professor: 'Carlos Duarte', data: new Date().toLocaleDateString('pt-PT'), epoca: 1 },
-  { unidadecurricular: 'Projeto de Sistemas de Informação', professor: 'Carlos Duarte', data: new Date().toLocaleDateString('pt-PT'), epoca: 2 },
-];
 
 @Component({
   selector: 'app-consultar-indisp',
   templateUrl: './consultar-indisp.component.html',
-  styleUrls: ['./consultar-indisp.component.css']
+  styleUrls: ['./consultar-indisp.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
-export class ConsultarIndispComponent implements OnInit {
+export class ConsultarIndispComponent {
 
-  isGenerated: Array<boolean>;
-  currIndex: number;
-
-  unidades: UnidadeCurricular[] = [
-    { name: 'Principios da Programação' },
-    { name: 'Projeto de Sistemas de Informação' },
-    { name: 'Sistemas Distribuidos' }
+  unidades: nomeProfessores[] = [
+    { name: 'Mário Calha'},
+    { name: 'João Inácio'},
+    { name: 'Carlos Duarte'},
   ];
+  
+  constructor(private professorService: ProfessorService) { }
 
-  generateCalendar() {
-    this.isGenerated[this.currIndex] = true;
+
+  getAllProfessores() {
+    /**this.professores = this.professorService.getAllProfessores().subscribe;*/
   }
 
   filterTable(uni) {
     console.log(uni);
-    this.dataSource = DATA;
+    this.dataSource = ELEMENT_DATA;
     function filterByUC(element, index, array) {
-      return (element.unidadecurricular == uni);
+      return (element.name == uni);
     }
     const newDataSource = this.dataSource.filter(filterByUC);
     this.dataSource = newDataSource;
     console.log(newDataSource);
   }
 
-  displayedColumns: string[] = ['professor', 'data', 'epoca'];
-  dataSource = DATA;
-
-  constructor() { }
-
-  ngOnInit() {
-    this.isGenerated = [true, true];
-    this.currIndex = 0;
-  }
-
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.currIndex = tabChangeEvent.index;
-    console.log(this.isGenerated[this.currIndex]);
     console.log(tabChangeEvent);
   }
 
+  dataSource = ELEMENT_DATA;
+  columnsToDisplay = ['name', 'dataInicio', 'dataFim'];
+  expandedElement: Professores;
 }
+
+export interface Professores {
+  name: string;
+  dataInicio: string;
+  dataFim: string;
+}
+
+// Falta colocar isto automático com service
+const ELEMENT_DATA: Professores[] = [
+  {
+    name: 'Mário Calha', 
+    dataInicio: '28.01.2019', 
+    dataFim: '03.02.2019'
+  },
+  {
+    name: 'Mário Calha', 
+    dataInicio: '28.01.2019', 
+    dataFim: '03.02.2019'
+  },
+  {
+    name: 'Carlos Duarte', 
+    dataInicio: '28.01.2019', 
+    dataFim: '03.02.2019'
+  },
+  {
+    name: 'Mário Calha', 
+    dataInicio: '28.01.2019', 
+    dataFim: '03.02.2019'
+  },
+  {
+    name: 'Carlos Duarte', 
+    dataInicio: '28.01.2019', 
+    dataFim: '03.02.2019'
+  },
+  {
+    name: 'João Inácio', 
+    dataInicio: '28.01.2019', 
+    dataFim: '03.02.2019'
+  }
+];
+
