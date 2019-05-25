@@ -1,27 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-
-export interface Exame {
-  unidadecurricular: string;
-  data: String;
-  nomeVigi: string;
-  sala: string;
-}
-
-const ELEMENT_DATA: Exame[] = [
-  {
-    unidadecurricular: 'Projeto de Sistemas de Informação',
-    data: new Date().toLocaleDateString('pt-PT'), 
-    nomeVigi: 'Inocêncio Coitadinho', 
-    sala: '1.2.32'
-  },
-  {
-    unidadecurricular: 'Introdução à Programação', 
-    data: new Date().toLocaleDateString('pt-PT'), 
-    nomeVigi: 'Sr.Tobias', 
-    sala: '6.2.34'
-  }
-];
+import { Exame } from 'src/app/models/exame';
+import { VigilanciaService } from 'src/app/services/vigilancia.service';
+import { Vigilancia } from 'src/app/models/vigilancia';
 
 @Component({
   selector: 'app-consultar-vigilantes',
@@ -30,12 +10,26 @@ const ELEMENT_DATA: Exame[] = [
 })
 export class ConsultarVigilantesComponent implements OnInit {
 
-  displayedColumns: string[] = ['unidadecurricular', 'data', 'nomeVigi', 'sala'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['unidadecurricular', 'data', 'sala', 'nomeVigi'];
+  vigilancias: Vigilancia[];
 
-  constructor() { }
+  constructor(
+    private vigilanciaService: VigilanciaService
+  ) { }
 
   ngOnInit() {
+    this.vigilancias = [];
+    this.fetchVigilancias();
+  }
+
+  fetchVigilancias() {
+    const professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
+    this.vigilanciaService.getVigilanciasResponsavel(professorId)
+      .subscribe(data => this.parseVigilancias(data));
+  }
+
+  parseVigilancias(data) {
+    this.vigilancias = [...data];
   }
 
 }

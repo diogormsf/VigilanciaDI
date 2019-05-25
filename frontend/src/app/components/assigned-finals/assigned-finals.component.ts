@@ -26,7 +26,7 @@ export class AssignedFinalsComponent implements OnInit {
   }
 
   fetchVigilancias() {
-    const professorId = JSON.parse(localStorage.getItem('currentUser')).id;
+    const professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
     this.vigilanciaService.getVigilanciasByProfessor(professorId)
       .subscribe(data => this.parseVigilancias(data));
   }

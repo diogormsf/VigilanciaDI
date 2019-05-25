@@ -40,6 +40,7 @@ export class VigilanciaService {
 
     params = params.append('professorid', id);
 
-    return this.http.get(`${this.uri}/getVigilanciasResponsavel`, { params: params });
+    return this.http.get<Vigilancia[]>(`${this.uri}/getVigilanciasResponsavel`, { params: params })
+    .pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))));
   }
 }

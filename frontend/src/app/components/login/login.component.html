@@ -1,26 +1,26 @@
+<form class="login-main" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <img id="logoFCUL" src="assets/img/fcul_logo.png" alt="FCUL logo">
 
-  <form class="login-main" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <img id="logoFCUL" src="assets/img/fcul_logo.png" alt="FCUL logo">
+  <span class="login-main-title">Vigilância de Exames</span>
 
-    <span class="login-main-title">Vigilância de Exames</span>
+  <div class="login-main-usernameArea">
+    <mat-form-field class="usernameFormField">
+      <label for="username">Email</label>
+      <input matInput type="text" formControlName="username" class="form-control" />
+      <mat-error *ngIf="loginForm.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
 
-    <div class="login-main-usernameArea">
-      <mat-form-field class="usernameFormField">
-        <label for="username">Username</label>
-        <input matInput type="text" formControlName="username" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-      </mat-form-field>
-    </div>
+  </div>
 
-    <div class="login-main-passArea">
-      <mat-form-field class="passFormField">
-        <label for="password">Password</label>
-        <input matInput type="password" formControlName="password" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-      </mat-form-field>
-    </div>
+  <div class="login-main-passArea">
+    <mat-form-field class="passFormField">
+      <label for="password">Password</label>
+      <input matInput type="password" formControlName="password" class="form-control" />
+      <mat-error *ngIf="loginForm.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </div>
 
-    <div class="login-main-button" class="form-group">
-      <button mat-button [disabled]="loading">Login</button>
-    </div>
-  </form>
+  <div class="login-main-button" class="form-group">
+    <button mat-button [disabled]="loading">Login</button>
+  </div>
+</form>

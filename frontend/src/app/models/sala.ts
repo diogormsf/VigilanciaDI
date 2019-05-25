@@ -7,4 +7,6 @@ export class Sala {
     Object.assign(this, input);
     return this;
   }
+
+  
 }
