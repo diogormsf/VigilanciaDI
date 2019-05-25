@@ -7,4 +7,9 @@ export class User {
   sabatica: boolean;
   gestor: boolean;
   token?: string;
+
+  deserialize(input: any) {
+    Object.assign(this, input);
+    return this;
+  }
 }

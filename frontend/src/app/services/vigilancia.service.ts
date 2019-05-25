@@ -1,5 +1,8 @@
+import { Vigilancia } from 'src/app/models/vigilancia';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/internal/operators/map';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +14,17 @@ export class VigilanciaService {
   constructor(private http: HttpClient) { }
 
   getAllVigilancias() {
-    return this.http.get(`${this.uri}/getAllVigilancias`);
+    return this.http.get<Vigilancia[]>(`${this.uri}/getAllVigilancias`)
+    .pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))));
   }
 
-  getVigilanciasByProfessor(id) {
+  getVigilanciasByProfessor(id): Observable<Vigilancia[]> {
     let params = new HttpParams();
 
     params = params.append('idprofessor', id);
 
-    return this.http.get(`${this.uri}/getVigilanciasByProfessor`, { params: params })
+    return this.http.get<Vigilancia[]>(`${this.uri}/getVigilanciasByProfessor`, { params: params })
+    .pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))));
   }
 
   createCalendar(epoca) {
@@ -35,6 +40,6 @@ export class VigilanciaService {
 
     params = params.append('professorid', id);
 
-    return this.http.get(`${this.uri}/getVigilanciasResponsavel`, { params: params })
+    return this.http.get(`${this.uri}/getVigilanciasResponsavel`, { params: params });
   }
 }
