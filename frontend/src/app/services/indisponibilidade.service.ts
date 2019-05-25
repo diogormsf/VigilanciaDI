@@ -1,5 +1,9 @@
+import { Indisponibilidade } from 'src/app/models/indisponibilidade';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/internal/operators/map';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +22,8 @@ export class IndisponibilidadeService {
         params = params.append('fim', dataFim);
         params = params.append('justificacao', descricao);
 
-        return this.http.get(`${this.uri}/addIndisponibilidade`, { params: params });
+        return this.http.get(`${this.uri}/addIndisponibilidade`, { params: params })
+        .pipe(map(elem => new Indisponibilidade().deserialize(elem)));
     }
 
     updateDisponibilidade(vigilanciaId, indisponibilidade) {
@@ -29,4 +34,14 @@ export class IndisponibilidadeService {
 
         return this.http.get(`${this.uri}/updateDisponibilidade`, { params: params });
     }
+
+    getAllIndisponibilidade() {
+        return this.http.get(`${this.uri}/getAllIndisponibilidades`)
+        .pipe(
+            map(elem => elem['exames'].map(elem => new Indisponibilidade().deserialize(elem))),
+            map(elem => new Indisponibilidade().deserialize(elem['indisponibilidade'])),
+        );
+    }
+
+
 }
