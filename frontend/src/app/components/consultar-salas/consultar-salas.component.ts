@@ -1,5 +1,11 @@
+import { VigilanciaService } from './../../services/vigilancia.service';
+import { SalaService } from './../../services/sala.service';
 import { Component, OnInit } from '@angular/core';
 import { element } from '@angular/core/src/render3';
+import { Sala } from 'src/app/models/sala';
+import { Vigilancia } from 'src/app/models/vigilancia';
+import { Exame } from './../../models/exame';
+
 
 export interface Exame {
   unidadecurricular: string;
@@ -8,44 +14,6 @@ export interface Exame {
   sala: string;
 }
 
-const ELEMENT_DATA: Exame[] = [
-  {
-    unidadecurricular: 'Projeto de Sistemas de Informação',
-    lotacaoNormal: '50', 
-    lotacaoExame: '100', 
-    sala: '1.2.32'
-  },
-  {
-    unidadecurricular: 'Introdução à Programação', 
-    lotacaoNormal: '50', 
-    lotacaoExame: '100', 
-    sala: '6.2.34'
-  },
-  {
-    unidadecurricular: 'Projeto de Sistemas de Informação',
-    lotacaoNormal: '50', 
-    lotacaoExame: '100', 
-    sala: '1.2.32'
-  },
-  {
-    unidadecurricular: 'Introdução à Programação', 
-    lotacaoNormal: '50', 
-    lotacaoExame: '100', 
-    sala: '6.2.34'
-  },
-  {
-    unidadecurricular: 'Projeto de Sistemas de Informação',
-    lotacaoNormal: '50', 
-    lotacaoExame: '100', 
-    sala: '1.2.32'
-  },
-  {
-    unidadecurricular: 'Introdução à Programação', 
-    lotacaoNormal: '50', 
-    lotacaoExame: '100', 
-    sala: '6.2.34'
-  }
-];
 
 @Component({
   selector: 'app-consultar-salas',
@@ -55,13 +23,29 @@ const ELEMENT_DATA: Exame[] = [
 export class ConsultarSalasComponent implements OnInit {
 
   displayedColumns: string[] = ['unidadecurricular', 'lotacaoNormal', 'lotacaoExame', 'sala'];
-  dataSource = ELEMENT_DATA;
+  vigilancias: Vigilancia[];
+  exames: Exame[];
+  salaContainer: Sala[];
+  auxArray: [];
 
-  
 
-  constructor() { }
+  constructor(
+    private SalaService: SalaService, private vigilanciaService: VigilanciaService
+  ) { }
 
   ngOnInit() {
+    this.salaContainer = [];
+    this.salaContainer = [];
+    this.getAllInfo();
   }
 
+  getAllInfo() {
+    this.SalaService.processSalasUnidadeCurr()[0]
+    .subscribe(data => this.parseSalas(data));;
+  }
+
+  parseSalas(data): void {
+    this.salaContainer = data;
+    throw new Error("Method not implemented.");
+  }
 }
