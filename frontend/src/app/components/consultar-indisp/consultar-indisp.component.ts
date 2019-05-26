@@ -23,15 +23,17 @@ export class ConsultarIndispComponent {
   unidades: Professor[];
   indisponibilidades: Indisponibilidade[];
   columnsToDisplay = ['name', 'dataInicio', 'dataFim'];
+  dataSource = [];
+  expandedElement: Indisponibilidade;
 
-  
+
   constructor(private professorService: ProfessorService) { }
 
   ngOnInit() {
     this.unidades = [];
     this.fetchProfessores();
   }
-  
+
   fetchProfessores() {
     this.professorService.getAllProfessores()
       .subscribe(data => this.parseProfessores(data));
@@ -45,7 +47,7 @@ export class ConsultarIndispComponent {
 
   filterTable(uni) {
     console.log(uni);
-    this.dataSource = ELEMENT_DATA;
+    this.dataSource = [];
     function filterByUC(element, index, array) {
       return (element.name == uni);
     }
@@ -58,6 +60,4 @@ export class ConsultarIndispComponent {
     console.log(tabChangeEvent);
   }
 
-  dataSource = ELEMENT_DATA;
-  expandedElement: Indisponibilidade;
 }

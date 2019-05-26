@@ -29,7 +29,7 @@ export class CreateCalendarComponent implements OnInit {
   isGenerated: Array<boolean>;
   currIndex: number;
   displayedColumns: string[] = ['professor', 'data', 'epoca'];
-  dataSource = [DATA, DATA];
+  dataSource = DATA;
 
   constructor() { }
 
