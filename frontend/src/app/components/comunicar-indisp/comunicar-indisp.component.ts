@@ -4,7 +4,7 @@ import {FormControl } from '@angular/forms';
 import { IndisponibilidadeService } from './../../services/indisponibilidade.service';
 import { Indisponibilidade } from 'src/app/models/indisponibilidade';
 
-const ELEMENT_DATA: Indisponibilidade[] = [
+/* const ELEMENT_DATA: Indisponibilidade[] = [
   {
     datacriacao: new Date().toLocaleDateString('pt-PT'),
     datainicio: new Date().toLocaleDateString('pt-PT'),
@@ -29,7 +29,7 @@ const ELEMENT_DATA: Indisponibilidade[] = [
     datafim: new Date().toLocaleDateString('pt-PT'),
     descricao: ''
   },
-];
+]; */
 
 
 @Component({
@@ -43,13 +43,13 @@ export class ComunicarIndispComponent implements OnInit {
 
   description: string; 
   displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
-  dataSource= ELEMENT_DATA;
-  dateFrom: Date;
+/*   dataSource= ELEMENT_DATA;
+ */  dateFrom: Date;
   dateTo: Date;
 
 
   constructor( 
-    private indisponibilidadeService: IndisponibilidadeService , 
+    private IndisponibilidadeService: IndisponibilidadeService , 
     private professorService: ProfessorService
   ){ }
 
@@ -64,25 +64,31 @@ export class ComunicarIndispComponent implements OnInit {
   //get indisponibilidade
   fetchIndisponibilidadeUSER() {
     const professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
-    this.indisponibilidadeService.getIndisponibilidadebyProfessor(professorId)
+    this.IndisponibilidadeService.getIndisponibilidadebyProfessor(professorId)
     .subscribe(data => this.parseIndisponibilidadeFromUser(data));;
   }
   parseIndisponibilidadeFromUser(data): void {
     this.indisponibilidadeUser = [...data];
-    
   }
 
   //verifica com a indisponibilidades ja inseridas depois de carregar no 'mais'
   checkAndAddIndisp () {
     const professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
-    this.indisponibilidadeUser.forEach( indisp => {
-      if (this.dateFrom.getMilliseconds < indisp.inicio.getMilliseconds && this.dateTo.getMilliseconds < indisp.inicio.getMilliseconds
-         || this.dateFrom.getMilliseconds > indisp.fim.getMilliseconds && this.dateFrom.getMilliseconds > indisp.fim.getMilliseconds ) 
-      {
-        this.indisponibilidadeService.addIndisponibilidade(professorId, this.dateFrom, this.dateTo, this.description);
-      }else{
-        console.log ('insert a new date');
-      }
-    });
+
+    if ( this.indisponibilidadeUser.length == 0 ) {
+      this.IndisponibilidadeService.addIndisponibilidade(professorId, this.dateFrom, this.dateTo, this.description);
+
+    }else {
+      this.indisponibilidadeUser.forEach( indisp => {
+        if (this.dateFrom.getMilliseconds < indisp.inicio.getMilliseconds && this.dateTo.getMilliseconds < indisp.inicio.getMilliseconds
+           || this.dateFrom.getMilliseconds > indisp.fim.getMilliseconds && this.dateFrom.getMilliseconds > indisp.fim.getMilliseconds ) 
+        {
+          this.IndisponibilidadeService.addIndisponibilidade(professorId, this.dateFrom, this.dateTo, this.description);
+        }else{
+          console.log ('insert a new date');
+        }
+      });
+    }
+    
   }
 }
