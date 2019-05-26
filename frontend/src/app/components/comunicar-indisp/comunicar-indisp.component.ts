@@ -43,8 +43,8 @@ export class ComunicarIndispComponent implements OnInit {
 
   description: string; 
   displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
-/*   dataSource= ELEMENT_DATA;
- */  dateFrom: Date;
+/*   dataSource= ELEMENT_DATA;*/  
+  dateFrom: Date;
   dateTo: Date;
 
 

@@ -42,7 +42,7 @@ export class ConsultarSalasComponent implements OnInit {
   }
 
   getAllInfo() {
-    const professorId = JSON.parse(localStorage.getItem('currentUser')).id;
+    const professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
     this.ExameService.getExamesResponsavel(professorId)
     .subscribe(data => this.parseSalas(data));
   }
