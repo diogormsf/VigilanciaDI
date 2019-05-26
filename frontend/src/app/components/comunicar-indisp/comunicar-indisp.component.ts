@@ -49,17 +49,13 @@ export class ComunicarIndispComponent implements OnInit {
 
 
   constructor( 
-    private IndisponibilidadeService: IndisponibilidadeService , 
-    private professorService: ProfessorService
-  ){ }
+    private IndisponibilidadeService: IndisponibilidadeService  ){ }
 
   ngOnInit() {
     this.indisponibilidadeUser = [];
     //vai buscar a indisponibilidade do user logged in
     this.fetchIndisponibilidadeUSER();
   }
-
-
 
   //get indisponibilidade
   fetchIndisponibilidadeUSER() {
