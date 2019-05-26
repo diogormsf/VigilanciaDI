@@ -18,20 +18,24 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ]),
   ],
 })
-export class ConsultarIndispComponent {
+export class ConsultarIndispComponent implements OnInit{
 
-  unidades: Professor[];
+  professores: Professor[];
   indisponibilidades: Indisponibilidade[];
-  columnsToDisplay = ['name', 'dataInicio', 'dataFim'];
-  dataSource = [];
-  expandedElement: Indisponibilidade;
+  auxInd: Indisponibilidade[];
+  displayedColumns: string[] = ['docente', 'inicio', 'fim'];
+  expandedElement: Indisponibilidade | null;
 
-
-  constructor(private professorService: ProfessorService) { }
+  constructor(private professorService: ProfessorService,
+    private indisponibilidadeService: IndisponibilidadeService) { }
 
   ngOnInit() {
-    this.unidades = [];
+    this.professores = [];
+    this.indisponibilidades = [];
+    this.auxInd = [];
     this.fetchProfessores();
+    this.fetchIndisponibilidades();
+    console.log(this.indisponibilidades);
   }
 
   fetchProfessores() {
@@ -39,25 +43,33 @@ export class ConsultarIndispComponent {
       .subscribe(data => this.parseProfessores(data));
   }
 
+  fetchIndisponibilidades() {
+    this.indisponibilidadeService.getAllIndisponibilidade()
+      .subscribe(data => this.parseIndisponibilidades(data));
+  }
+
   parseProfessores(data) {
-    this.unidades = data;
+    this.professores = data;
     console.log('Data requested ... ');
-    console.log(this.unidades);
+    console.log(this.professores);
+  }
+
+  parseIndisponibilidades(data) {
+    this.indisponibilidades = data;
+    this.auxInd = data;
+    console.log('Data requested ... ');
+    console.log(this.indisponibilidades);
   }
 
   filterTable(uni) {
-    console.log(uni);
-    this.dataSource = [];
+    this.indisponibilidades = this.auxInd;
     function filterByUC(element, index, array) {
-      return (element.name == uni);
+      console.log(uni);
+      console.log(element.indisponibilidade.professor._id);
+      return ('' + element.indisponibilidade.professor._id === '' + uni);
     }
-    const newDataSource = this.dataSource.filter(filterByUC);
-    this.dataSource = newDataSource;
+    const newDataSource = this.indisponibilidades.filter(filterByUC);
+    this.indisponibilidades = newDataSource;
     console.log(newDataSource);
   }
-
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    console.log(tabChangeEvent);
-  }
-
 }

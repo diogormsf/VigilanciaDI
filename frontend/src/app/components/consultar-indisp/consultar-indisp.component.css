@@ -69,3 +69,12 @@ table {
     opacity: 0.5;
   }
   
+  .details{
+    display: flex;
+    flex-direction: column !important;
+    padding: 10px;
+  }
+
+  #uc{
+    padding-right: 5px;
+  }
