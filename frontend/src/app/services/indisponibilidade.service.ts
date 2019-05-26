@@ -36,11 +36,7 @@ export class IndisponibilidadeService {
     }
 
     getAllIndisponibilidade() {
-        return this.http.get(`${this.uri}/getAllIndisponibilidades`)
-        .pipe(
-            map(elem => elem['exames'].map(elem => new Indisponibilidade().deserialize(elem))),
-            map(elem => new Indisponibilidade().deserialize(elem['indisponibilidade'])),
-        );
+        return this.http.get(`${this.uri}/getAllIndisponibilidades`);
     }
 
 
