@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 import { Exame } from '../models/exame';
 import { map } from 'rxjs/operators';
 
@@ -33,5 +34,12 @@ export class ExameService {
 
     return this.http.get<Exame[]>(`${this.uri}/getExamesResponsavel`, { params: params })
     .pipe(map(data => data.map(elem => new Exame().deserialize(elem))));
+  }
+
+  processSalasUnidadeCurr() {
+    return forkJoin(
+    /* this.http.get(`${this.uri}/getAllSalas`), */
+    this.http.get(`${this.uri}/getExamesResponsavel`)
+    );
   }
 }

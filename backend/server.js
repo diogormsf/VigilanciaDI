@@ -89,6 +89,24 @@ app.get('/getAllExames', function (req, res, next) {
 
 });
 
+app.get('/getAllSalas', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    Sala.find()
+        .exec(function (err, salalist) {
+            res.json(salalist);
+        });
+});
+
+app.get('/getAllUnidadesCurriculares', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    UnidadeCurricular.find()
+        .exec(function (err, uclist) {
+            res.json(uclist);
+        });
+});
+
 app.get('/getExameById', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
 
@@ -167,6 +185,39 @@ app.get('/getAllVigilancias', function (req, res, next) {
         });
 });
 
+app.get('/getAllIndisponibilidades', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    let result = []
+    Indisponibilidade.find()
+        .populate('professor')
+        .populate({
+            path: 'professor',
+            // Get friends of friends - populate the 'friends' array for every friend
+            populate: {
+                path: 'responsavel'
+            }
+        })
+        .exec(function (err, listind) {
+            listind.forEach(function (elem) {
+                Exame.find({
+                        "data": {
+                            "$gte": elem.inicio,
+                            "$lt": elem.fim
+                        }
+                    }).populate('unidadecurricular')
+                    .populate('sala')
+                    .exec(function (req, examelist, next) {
+                        result.push({
+                            'indisponibilidade': elem,
+                            'exames': examelist
+                        });
+                        res.json(result);
+                    })
+            })
+
+        })
+});
+
 app.get('/getVigilanciasByProfessor', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
 
@@ -241,7 +292,6 @@ app.get('/getVigilanciasBySemestre', function (req, res, next) {
             res.json(semestre);
         })
 });
-
 
 app.get('/addVigilancia', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -359,7 +409,7 @@ app.get('/getVigilanciasResponsavel', function (req, res, next) {
     let result = [];
 
     Professor.findById(req.query.professorid)
-        .populate('professor')
+        .populate('responsavel')
         .exec(function (err, professorinstance) {
             if (err) {
                 return next(err);
@@ -370,28 +420,55 @@ app.get('/getVigilanciasResponsavel', function (req, res, next) {
                 return next(err);
             }
 
-            Exame.find({}, function (err, allExames) {
-                professorinstance.responsavel.populate('unidadecurricular').forEach(function (elem) {
-
-                    allExames.forEach(function (ex) {
-                        if (ex.unidadecurricular === elem) {
-
-                            Vigilancia.find({
-                                    exame: ex
-                                })
-                                .populate('professor').populate('exame')
-                                .exec(function (err, list_vigilancias) {
-                                    if (err) {
-                                        return next(err);
-                                    }
-                                    result.push(list_vigilancias);
-                                });
-                        }
+            Exame.find()
+                .populate('unidadecurricular')
+                .populate('sala')
+                .exec(function (err, allExames) {
+                    professorinstance.responsavel.forEach(function (elem) {
+                        allExames.forEach(function (ex) {
+                            console.log(elem.nome);
+                            console.log(ex.unidadecurricular.nome);
+                            if (ex.unidadecurricular.nome === elem.nome) {
+                                Vigilancia.find({
+                                        exame: ex
+                                    })
+                                    .populate('professor').populate('exame')
+                                    .populate({
+                                        path: 'exame',
+                                        // Get friends of friends - populate the 'friends' array for every friend
+                                        populate: {
+                                            path: 'sala'
+                                        }
+                                    })
+                                    .populate({
+                                        path: 'exame',
+                                        // Get friends of friends - populate the 'friends' array for every friend
+                                        populate: {
+                                            path: 'unidadecurricular'
+                                        }
+                                    })
+                                    .populate({
+                                        path: 'professor',
+                                        // Get friends of friends - populate the 'friends' array for every friend
+                                        populate: {
+                                            path: 'responsavel'
+                                        }
+                                    })
+                                    .exec(function (err, list_vigilancias) {
+                                        if (err) {
+                                            return next(err);
+                                        }
+                                        list_vigilancias.forEach(function(vig){
+                                            result.push(vig);
+                                        })
+                                    });
+                            }
+                        })
                     })
-
+                    setTimeout(function () {
+                        res.json(result)
+                    }, 10000);
                 })
-                res.json(result);
-            });
         })
 });
 
@@ -400,7 +477,7 @@ app.get('/getExamesResponsavel', function (req, res, next) {
 
     let result = [];
     Professor.findById(req.query.professorid)
-        .populate('professor')
+        .populate('responsavel')
         .exec(function (err, professorinstance) {
             if (err) {
                 return next(err);
@@ -410,16 +487,22 @@ app.get('/getExamesResponsavel', function (req, res, next) {
                 err.status = 404;
                 return next(err);
             }
-            Exame.find({}, function (err, allExames) {
-
-                professorinstance.responsavel.populate('unidadecurricular').forEach(function (elem) {
-                    allExames.forEach(function (ex) {
-                        if (ex.unidadecurricular === elem) {
-                            result.push(ex);
-                        }
+            Exame.find()
+                .populate('unidadecurricular')
+                .populate('sala')
+                .exec(function (err, allExames) {
+                    professorinstance.responsavel.forEach(function (elem) {
+                        allExames.forEach(function (ex) {
+                            console.log(elem.nome);
+                            console.log(ex.unidadecurricular.nome);
+                            if (ex.unidadecurricular.nome === elem.nome) {
+                                console.log(ex);
+                                result.push(ex);
+                            }
+                        })
                     })
+                    res.json(result);
                 })
-            })
         })
 });
 
@@ -439,8 +522,8 @@ app.get('/addIndisponibilidade', function (req, res, next) {
             }
             let indisponibilidadedetail = {
                 professor: professorinstance,
-                inicio: new Date(2019, 3, 10),
-                fim: new Date(2019, 3, 20),
+                inicio: new Date(2019, 6, 5),
+                fim: new Date(2019, 8, 20),
                 justificacao: req.query.justificacao
             }
 
@@ -454,29 +537,41 @@ app.get('/addIndisponibilidade', function (req, res, next) {
         })
 });
 
-app.get('/getIndisponibilidade', function (req, res, next) {
+app.get('/getIndisponibilidadeByProfessor', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
 
-    let result = [];
-    Indisponibilidade.find({}, function (err, allInd) {
-        allInd.forEach(function (elem) {
-            let exames = [];
-            Exame.find({
-                "date": {
-                    "$gte": elem.inicio,
-                    "$lt": elem.fim
-                }
-            }, function (req, res, next) {
-                res.forEach(function (ex) {
-                    exames.push(ex);
-                })
-            })
-            result.push({
-                'indisponibilidade': elem,
-                'exames': exames
-            });
-        })
+    Indisponibilidade.find({
+        professor: req.query.professorid
     })
+    .populate('professor')
+    .populate({
+        path: 'professor',
+        // Get friends of friends - populate the 'friends' array for every friend
+        populate: {
+            path: 'responsavel'
+        }
+    })
+    .exec(function (err, allInd) {
+        res.json(allInd);
+    })
+});
+
+app.get('/getVigilanciasByExame', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    Vigilancia.find({
+            exame: req.query.exameid
+        }).populate('professor')
+        .populate({
+            path: 'professor',
+            // Get friends of friends - populate the 'friends' array for every friend
+            populate: {
+                path: 'responsavel'
+            }
+        })
+        .exec(function (err, list_vigilancias) {
+            res.json(list_vigilancias)
+        });
 })
 
 /**
@@ -496,6 +591,28 @@ app.get('/updateDisponibilidade', function (req, res, next) {
         },
         function (err, vigilanciainstance) {
             res.json(vigilanciainstance);
+        });
+});
+
+app.get('/trocarVigilancias', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+
+    Vigilancia.findOneAndUpdate({
+            _id: req.query.vigilancia1
+        }, {
+            professor: req.query.professor2
+        },
+        function (err, vigilanciainstance1) {
+            Vigilancia.findOneAndUpdate({
+                    _id: req.query.vigilancia2
+                }, {
+                    professor: req.query.professor1
+                },
+                function (err, vigilanciainstance2) {
+                    res.json({
+                        'result': 'success'
+                    });
+                });
         });
 });
 

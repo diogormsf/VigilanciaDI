@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material';
+import { Professor } from './../../models/professor';
+import { Indisponibilidade } from './../../models/indisponibilidade';
 import { ProfessorService } from './../../services/professor.service';
+import { IndisponibilidadeService } from './../../services/indisponibilidade.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-
-export interface nomeProfessores {
-  name: string;
-}
-
 
 @Component({
   selector: 'app-consultar-indisp',
@@ -22,17 +20,27 @@ export interface nomeProfessores {
 })
 export class ConsultarIndispComponent {
 
-  unidades: nomeProfessores[] = [
-    { name: 'Mário Calha'},
-    { name: 'João Inácio'},
-    { name: 'Carlos Duarte'},
-  ];
+  unidades: Professor[];
+  indisponibilidades: Indisponibilidade[];
+  columnsToDisplay = ['name', 'dataInicio', 'dataFim'];
+
   
   constructor(private professorService: ProfessorService) { }
 
+  ngOnInit() {
+    this.unidades = [];
+    this.fetchProfessores();
+  }
+  
+  fetchProfessores() {
+    this.professorService.getAllProfessores()
+      .subscribe(data => this.parseProfessores(data));
+  }
 
-  getAllProfessores() {
-    /**this.professores = this.professorService.getAllProfessores().subscribe;*/
+  parseProfessores(data) {
+    this.unidades = data;
+    console.log('Data requested ... ');
+    console.log(this.unidades);
   }
 
   filterTable(uni) {
@@ -51,47 +59,5 @@ export class ConsultarIndispComponent {
   }
 
   dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['name', 'dataInicio', 'dataFim'];
-  expandedElement: Professores;
+  expandedElement: Indisponibilidade;
 }
-
-export interface Professores {
-  name: string;
-  dataInicio: string;
-  dataFim: string;
-}
-
-// Falta colocar isto automático com service
-const ELEMENT_DATA: Professores[] = [
-  {
-    name: 'Mário Calha', 
-    dataInicio: '28.01.2019', 
-    dataFim: '03.02.2019'
-  },
-  {
-    name: 'Mário Calha', 
-    dataInicio: '28.01.2019', 
-    dataFim: '03.02.2019'
-  },
-  {
-    name: 'Carlos Duarte', 
-    dataInicio: '28.01.2019', 
-    dataFim: '03.02.2019'
-  },
-  {
-    name: 'Mário Calha', 
-    dataInicio: '28.01.2019', 
-    dataFim: '03.02.2019'
-  },
-  {
-    name: 'Carlos Duarte', 
-    dataInicio: '28.01.2019', 
-    dataFim: '03.02.2019'
-  },
-  {
-    name: 'João Inácio', 
-    dataInicio: '28.01.2019', 
-    dataFim: '03.02.2019'
-  }
-];
-
