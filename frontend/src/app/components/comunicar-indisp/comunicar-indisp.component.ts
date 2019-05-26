@@ -41,14 +41,6 @@ export class ComunicarIndispComponent implements OnInit {
 
   indisponibilidadeUser: Indisponibilidade[];
 
-  add(){
-    this.dataSource = this.dataSource.concat({
-      datacriacao: new Date().toLocaleDateString('pt-PT'),
-      datainicio: this.dateFrom.toLocaleDateString('pt-PT'),
-      datafim: this.dateTo.toLocaleDateString('pt-PT'),
-      descricao: this.description
-    });
-  }
   description: string; 
   displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
   dataSource= ELEMENT_DATA;
@@ -63,12 +55,13 @@ export class ComunicarIndispComponent implements OnInit {
 
   ngOnInit() {
     this.indisponibilidadeUser = [];
+    //vai buscar a indisponibilidade do user logged in
     this.fetchIndisponibilidadeUSER();
   }
 
 
 
-  //depois de ter um value na combobox e usar para popular a tabela
+  //get indisponibilidade
   fetchIndisponibilidadeUSER() {
     const professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
     this.indisponibilidadeService.getIndisponibilidadebyProfessor(professorId)
@@ -79,7 +72,7 @@ export class ComunicarIndispComponent implements OnInit {
     
   }
 
-  //verifica com a indisponibilidades ja inseridas
+  //verifica com a indisponibilidades ja inseridas depois de carregar no 'mais'
   checkAndAddIndisp () {
     const professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
     this.indisponibilidadeUser.forEach( indisp => {
