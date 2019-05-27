@@ -1,6 +1,5 @@
 import { ExameService } from './../../services/exame.service';
 import { VigilanciaService } from './../../services/vigilancia.service';
-import { SalaService } from './../../services/sala.service';
 import { Component, OnInit } from '@angular/core';
 import { element } from '@angular/core/src/render3';
 import { Sala } from 'src/app/models/sala';
@@ -28,7 +27,7 @@ export class ConsultarSalasComponent implements OnInit {
   vigilancias: Vigilancia[];
   exames: Exame[];
   salaContainer: Exame[];
-  auxArray: [];
+  auxArray: Object[];
 
 
   constructor(
