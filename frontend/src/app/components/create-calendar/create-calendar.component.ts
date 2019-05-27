@@ -1,9 +1,10 @@
 import { VigilanciaService } from './../../services/vigilancia.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material';
-import { forkJoin } from 'rxjs';
+import { forkJoin, throwError } from 'rxjs';
 import { Vigilancia } from 'src/app/models/vigilancia';
 import { UnidadeCurricular } from 'src/app/models/unidade-curricular';
+import { switchMap, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-calendar',
@@ -50,6 +51,10 @@ export class CreateCalendarComponent implements OnInit {
   }
 
   parseVigilancias(vigilancias, index) {
+    vigilancias.forEach(element => {
+      const vigData = new Date(element.exame.data);
+      element.exame.formatedDate = vigData.toISOString().split('T')[0];
+    });
     this.dataSource[index] = vigilancias;
     this.dataSource = [...this.dataSource];
     this.fixedDataSource = [...this.dataSource];
@@ -63,8 +68,18 @@ export class CreateCalendarComponent implements OnInit {
   }
 
   generateCalendar() {
-    this.vigilanciaService.getVigilanciasBySemestre(1)
-    .subscribe(data => {
+    const generateCal = this.vigilanciaService.createCalendar(this.currIndex + 1);
+
+    const seq = generateCal.pipe(
+      switchMap(data => {
+        return this.vigilanciaService.getVigilanciasBySemestre(1);
+      }),
+      catchError((e) => {
+        return throwError(e);
+      })
+    )
+
+    seq.subscribe(data => {
       this.parseVigilancias(data, this.currIndex);
     });
   }

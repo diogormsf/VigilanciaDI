@@ -8,6 +8,7 @@ export class Exame {
   data: Date;
   horario?: string;
   sala: [Sala];
+  formatedDate?: String;
 
   deserialize(input: any): Exame {
     Object.assign(this, input);

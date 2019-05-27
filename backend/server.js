@@ -208,23 +208,23 @@ app.get('/getAllIndisponibilidades', function (req, res, next) {
                     .populate('sala')
                     .exec(function (req, examelist, next) {
                         let exRes = [];
-                        examelist.forEach(function(ex){
+                        examelist.forEach(function (ex) {
                             Vigilancia.find({
-                                exame: ex
-                            }).populate('professor')
-                            .populate({
-                                path: 'professor',
-                                // Get friends of friends - populate the 'friends' array for every friend
-                                populate: {
-                                    path: 'responsavel'
-                                }
-                            })
-                            .exec(function (err, list_vigilancias) {
-                                exRes.push({
-                                    exame: ex,
-                                    vigilanciasAtribuidas: list_vigilancias.length
+                                    exame: ex
+                                }).populate('professor')
+                                .populate({
+                                    path: 'professor',
+                                    // Get friends of friends - populate the 'friends' array for every friend
+                                    populate: {
+                                        path: 'responsavel'
+                                    }
+                                })
+                                .exec(function (err, list_vigilancias) {
+                                    exRes.push({
+                                        exame: ex,
+                                        vigilanciasAtribuidas: list_vigilancias.length
+                                    });
                                 });
-                            });
                         })
                         result.push({
                             'indisponibilidade': elem,
@@ -309,7 +309,9 @@ app.get('/getVigilanciasBySemestre', function (req, res, next) {
                     semestre.push(elem);
                 }
             })
-            res.json(semestre);
+            setTimeout(function () {
+                res.json(semestre)
+            }, 10000);
         })
 });
 
@@ -362,63 +364,44 @@ app.get('/createCalendar', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
 
     let calendar = [];
-    let semestre = [];
-    Vigilancia.find()
-        .populate('professor').populate('exame')
-        .exec(function (err, list_vigilancias) {
-            if (err) {
+
+
+
+    let availableProf = [];
+    Professor.find({}, function (err, allprofessores) {
+        allprofessores.forEach(function (elem) {
+            if (elem.sabatica === false && elem.gestor === false &&
+                elem.estatuto !== 'Catedrático' && elem.estatuto !== 'Associado') {
+                availableProf.push(elem);
+            }
+        })
+        Exame.find({
+            semestre: req.query.semestre
+        }, function (err, allexames) {
+            if (allexames.length > availableProf.length) {
+                var err = new Error('Mais exames que professores disponiveis');
+                err.status = 400;
                 return next(err);
             }
-            list_vigilancias.forEach(function (elem) {
-                console.log('' + elem.exame.semestre);
-                console.log('' + req.query.semestre);
+            var i;
+            for (i = 0; i < availableProf.length; i++) {
 
-                if (('' + elem.exame.semestre) === ('' + req.query.semestre)) {
-                    semestre.push(elem);
+                let vigilanciadetail = {
+                    professor: availableProf[i],
+                    exame: allexames[i % allexames.length],
+                    indisponibilidade: 'disponivel'
                 }
-            })
-            console.log("jkasfjkasfkjsafsaf");
-            console.log(semestre);
-            if (semestre.length === 0) {
-                let availableProf = [];
-                Professor.find({}, function (err, allprofessores) {
-                    allprofessores.forEach(function (elem) {
-                        if (elem.sabatica === false && elem.gestor === false &&
-                            elem.estatuto !== 'Catedrático' && elem.estatuto !== 'Associado') {
-                            availableProf.push(elem);
-                        }
-                    })
-                    Exame.find({
-                        semestre: req.query.semestre
-                    }, function (err, allexames) {
-                        if (allexames.length > availableProf.length) {
-                            var err = new Error('Mais exames que professores disponiveis');
-                            err.status = 400;
-                            return next(err);
-                        }
-                        var i;
-                        for (i = 0; i < availableProf.length; i++) {
-
-                            let vigilanciadetail = {
-                                professor: availableProf[i],
-                                exame: allexames[i % allexames.length],
-                                indisponibilidade: 'disponivel'
-                            }
-                            var vigilancia = new Vigilancia(vigilanciadetail);
-                            vigilancia.save(function (err) {
-                                if (err) {
-                                    return next(err);
-                                }
-                                calendar.push(vigilancia);
-                            });
-                        }
-                        res.json(calendar);
-                    })
-                })
-            } else {
-                res.json(calendar);
+                var vigilancia = new Vigilancia(vigilanciadetail);
+                vigilancia.save(function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    calendar.push(vigilancia);
+                });
             }
-        });
+            res.json(calendar);
+        })
+    })
 
 
 });
@@ -478,7 +461,7 @@ app.get('/getVigilanciasResponsavel', function (req, res, next) {
                                         if (err) {
                                             return next(err);
                                         }
-                                        list_vigilancias.forEach(function(vig){
+                                        list_vigilancias.forEach(function (vig) {
                                             result.push(vig);
                                         })
                                     });
@@ -561,19 +544,19 @@ app.get('/getIndisponibilidadeByProfessor', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
 
     Indisponibilidade.find({
-        professor: req.query.professorid
-    })
-    .populate('professor')
-    .populate({
-        path: 'professor',
-        // Get friends of friends - populate the 'friends' array for every friend
-        populate: {
-            path: 'responsavel'
-        }
-    })
-    .exec(function (err, allInd) {
-        res.json(allInd);
-    })
+            professor: req.query.professorid
+        })
+        .populate('professor')
+        .populate({
+            path: 'professor',
+            // Get friends of friends - populate the 'friends' array for every friend
+            populate: {
+                path: 'responsavel'
+            }
+        })
+        .exec(function (err, allInd) {
+            res.json(allInd);
+        })
 });
 
 app.get('/getVigilanciasByExame', function (req, res, next) {

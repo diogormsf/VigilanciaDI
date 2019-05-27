@@ -28,10 +28,10 @@ export class VigilanciaService {
     .pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))));
   }
 
-  createCalendar(epoca) {
+  createCalendar(semestre) {
     let params = new HttpParams();
 
-    params = params.append('epoca', epoca);
+    params = params.append('semestre', semestre);
 
     return this.http.get(`${this.uri}/createCalendar`, { params: params });
   }

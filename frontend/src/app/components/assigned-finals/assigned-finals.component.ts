@@ -36,6 +36,7 @@ export class AssignedFinalsComponent implements OnInit {
     console.log(this.vigilancias);
     this.vigilancias.forEach(elem => {
       const vigData = new Date(elem.exame.data);
+      elem.exame.formatedDate = vigData.toISOString().split('T')[0];
       const vigHoraIni = vigData.getHours();
       const vigHoraFim = vigHoraIni + 3;
       elem.exame.horario = `${vigHoraIni}:00--${vigHoraFim}:00`;
