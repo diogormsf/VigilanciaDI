@@ -17,7 +17,7 @@ export class IndisponibilidadeService {
     addIndisponibilidade(id, dataInicio, dataFim, descricao) {
         let params = new HttpParams();
 
-        params = params.append('id', id);
+        params = params.append('professorid', id);
         params = params.append('inicio', dataInicio);
         params = params.append('fim', dataFim);
         params = params.append('justificacao', descricao);
@@ -37,6 +37,15 @@ export class IndisponibilidadeService {
 
     getAllIndisponibilidade() {
         return this.http.get(`${this.uri}/getAllIndisponibilidades`);
+    }
+
+    getIndisponibilidadeByProfessor(professorid) {
+
+        let params = new HttpParams();
+
+        params = params.append('professorid', professorid);
+
+        return this.http.get(`${this.uri}/getIndisponibilidadeByProfessor`, {params:params});
     }
 
 

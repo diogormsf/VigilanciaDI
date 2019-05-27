@@ -29,8 +29,8 @@
           <div class="details" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
             <div *ngFor="let ex of element.exames">
               <div class="details">
-                <span class="uc">Unidade Curricular: {{ex.unidadecurricular.nome}}</span>
-                <span class="epoca">Época: {{ex.epoca}}</span>
+                <span class="uc">Unidade Curricular: {{ex.exame.unidadecurricular.nome}}</span>
+                <span class="epoca">Época: {{ex.exame.epoca}}</span>
                 <span class="epoca">Vigilancias atribuidas: {{ex.vigilanciasAtribuidas}}</span>
               </div>
           </div>
