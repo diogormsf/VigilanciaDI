@@ -21,6 +21,7 @@ import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { LoginComponent } from './components/login/login.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
+import { DatePipe } from '@angular/common'
 
 import { AuthenticationService } from './services/authentication.service';
 import { ExameService } from './services/exame.service';
@@ -72,7 +73,8 @@ import { ConsultarSalasComponent } from './components/consultar-salas/consultar-
     ExameService,
     IndisponibilidadeService,
     ProfessorService,
-    VigilanciaService
+    VigilanciaService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -207,14 +207,34 @@ app.get('/getAllIndisponibilidades', function (req, res, next) {
                     }).populate('unidadecurricular')
                     .populate('sala')
                     .exec(function (req, examelist, next) {
+                        let exRes = [];
+                        examelist.forEach(function(ex){
+                            Vigilancia.find({
+                                exame: ex
+                            }).populate('professor')
+                            .populate({
+                                path: 'professor',
+                                // Get friends of friends - populate the 'friends' array for every friend
+                                populate: {
+                                    path: 'responsavel'
+                                }
+                            })
+                            .exec(function (err, list_vigilancias) {
+                                exRes.push({
+                                    exame: ex,
+                                    vigilanciasAtribuidas: list_vigilancias.length
+                                });
+                            });
+                        })
                         result.push({
                             'indisponibilidade': elem,
-                            'exames': examelist
+                            'exames': exRes
                         });
-                        res.json(result);
                     })
             })
-
+            setTimeout(function () {
+                res.json(result)
+            }, 20000);
         })
 });
 
@@ -522,8 +542,8 @@ app.get('/addIndisponibilidade', function (req, res, next) {
             }
             let indisponibilidadedetail = {
                 professor: professorinstance,
-                inicio: new Date(2019, 6, 5),
-                fim: new Date(2019, 8, 20),
+                inicio: req.query.inicio,
+                fim: req.query.fim,
                 justificacao: req.query.justificacao
             }
 
