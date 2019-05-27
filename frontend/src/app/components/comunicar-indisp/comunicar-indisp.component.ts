@@ -1,39 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl } from '@angular/forms';
-
-export interface Indisponibilidade {
-  datacriacao: String;
-  datainicio: String;
-  datafim: String;
-  descricao: String;
-}
-
-const ELEMENT_DATA: Indisponibilidade[] = [
-  {
-    datacriacao: new Date().toLocaleDateString('pt-PT'),
-    datainicio: new Date().toLocaleDateString('pt-PT'),
-    datafim: new Date().toLocaleDateString('pt-PT'),
-    descricao: ''
-  },
-  {
-    datacriacao: new Date().toLocaleDateString('pt-PT'),
-    datainicio: new Date().toLocaleDateString('pt-PT'),
-    datafim: new Date().toLocaleDateString('pt-PT'),
-    descricao: ''
-  },
-  {
-    datacriacao: new Date().toLocaleDateString('pt-PT'),
-    datainicio: new Date().toLocaleDateString('pt-PT'),
-    datafim: new Date().toLocaleDateString('pt-PT'),
-    descricao: ''
-  },
-  {
-    datacriacao: new Date().toLocaleDateString('pt-PT'),
-    datainicio: new Date().toLocaleDateString('pt-PT'),
-    datafim: new Date().toLocaleDateString('pt-PT'),
-    descricao: ''
-  },
-];
+import { Indisponibilidade } from './../../models/indisponibilidade';
+import { IndisponibilidadeService } from './../../services/indisponibilidade.service';
 
 
 @Component({
@@ -43,29 +11,55 @@ const ELEMENT_DATA: Indisponibilidade[] = [
 })
 export class ComunicarIndispComponent implements OnInit {
 
-
-  add(){
-    this.dataSource = this.dataSource.concat({
-      datacriacao: new Date().toLocaleDateString('pt-PT'),
-      datainicio: this.dateFrom.toLocaleDateString('pt-PT'),
-      datafim: this.dateTo.toLocaleDateString('pt-PT'),
-      descricao: this.description
-    });
-  }
-
   description: string; 
 
+  displayedColumns: string[] = ['inicio', 'fim', 'justificacao'];
+  indisponibilidades;
 
-  displayedColumns: string[] = ['datacriacao', 'datainicio', 'datafim', 'descricao'];
-  dataSource= ELEMENT_DATA;
+  professorId;
 
   dateFrom: Date;
   dateTo: Date;
 
-
-  constructor() { }
-
+  constructor(private indisponibilidadeService: IndisponibilidadeService) { }
+  
   ngOnInit() {
+    this.professorId = JSON.parse(localStorage.getItem('currentUser'))._id;
+    this.indisponibilidades = [];
+    this.fetchIndisponibilidades();
+    console.log(this.indisponibilidades);
   }
 
+  fetchIndisponibilidades() {
+    this.indisponibilidadeService.getIndisponibilidadeByProfessor(this.professorId)
+      .subscribe(data => this.parseIndisponibilidades(data));
+  }
+
+  parseIndisponibilidades(data) {
+    this.indisponibilidades = data;
+    this.indisponibilidades.forEach(function(elem){
+      elem.inicio = elem.inicio.split('T')[0];
+      elem.fim = elem.fim.split('T')[0];
+    });
+    console.log('Data requested ... ');
+    console.log(this.indisponibilidades);
+  }
+
+  parseAdd(data) {
+    this.indisponibilidades = this.indisponibilidades.concat(data);
+    this.indisponibilidades.forEach(function(elem){
+      elem.inicio = elem.inicio.split('T')[0];
+      elem.fim = elem.fim.split('T')[0];
+    });
+    console.log('Data requested ... ');
+    console.log(this.indisponibilidades);
+  }
+
+  add(){
+   this.indisponibilidadeService.addIndisponibilidade(this.professorId,
+    this.dateFrom,
+    this.dateTo,
+    this.description)
+    .subscribe(data => this.parseAdd(data));
+  }
 }

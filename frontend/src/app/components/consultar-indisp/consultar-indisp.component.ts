@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatTabChangeEvent } from '@angular/material';
 import { Professor } from './../../models/professor';
 import { Indisponibilidade } from './../../models/indisponibilidade';
@@ -21,13 +22,14 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class ConsultarIndispComponent implements OnInit{
 
   professores: Professor[];
-  indisponibilidades: Indisponibilidade[];
+  indisponibilidades;
   auxInd: Indisponibilidade[];
   displayedColumns: string[] = ['docente', 'inicio', 'fim'];
   expandedElement: Indisponibilidade | null;
 
   constructor(private professorService: ProfessorService,
-    private indisponibilidadeService: IndisponibilidadeService) { }
+    private indisponibilidadeService: IndisponibilidadeService,
+    private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.professores = [];
@@ -36,6 +38,10 @@ export class ConsultarIndispComponent implements OnInit{
     this.fetchProfessores();
     this.fetchIndisponibilidades();
     console.log(this.indisponibilidades);
+  }
+
+  formatDate(date){
+    date = date.split('T')[0];
   }
 
   fetchProfessores() {
@@ -56,6 +62,10 @@ export class ConsultarIndispComponent implements OnInit{
 
   parseIndisponibilidades(data) {
     this.indisponibilidades = data;
+    this.indisponibilidades.forEach(function(elem){
+      elem.indisponibilidade.inicio = elem.indisponibilidade.inicio.split('T')[0];
+      elem.indisponibilidade.fim = elem.indisponibilidade.fim.split('T')[0];
+    });
     this.auxInd = data;
     console.log('Data requested ... ');
     console.log(this.indisponibilidades);
