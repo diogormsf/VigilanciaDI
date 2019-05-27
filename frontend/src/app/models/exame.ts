@@ -6,7 +6,7 @@ export class Exame {
   semestre: number;
   epoca: number;
   data: Date;
-  // horario: string;
+  horario?: string;
   sala: [Sala];
 
   deserialize(input: any): Exame {

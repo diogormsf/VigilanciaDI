@@ -1,23 +1,9 @@
+import { VigilanciaService } from './../../services/vigilancia.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material';
-
-export interface UnidadeCurricular {
-  name: string;
-}
-
-export interface Vigilancia {
-  unidadecurricular: string;
-  professor: string;
-  data: string;
-  epoca: Number;
-}
-
-const DATA: Vigilancia[] = [
-  { unidadecurricular: 'Sistemas Distribuidos', professor: 'Mário Calha', data: new Date().toLocaleDateString('pt-PT'), epoca: 1 },
-  { unidadecurricular: 'Sistemas Distribuidos', professor: 'Mário Calha', data: new Date().toLocaleDateString('pt-PT'), epoca: 2 },
-  { unidadecurricular: 'Projeto de Sistemas de Informação', professor: 'Carlos Duarte', data: new Date().toLocaleDateString('pt-PT'), epoca: 1 },
-  { unidadecurricular: 'Projeto de Sistemas de Informação', professor: 'Carlos Duarte', data: new Date().toLocaleDateString('pt-PT'), epoca: 2 },
-];
+import { forkJoin } from 'rxjs';
+import { Vigilancia } from 'src/app/models/vigilancia';
+import { UnidadeCurricular } from 'src/app/models/unidade-curricular';
 
 @Component({
   selector: 'app-create-calendar',
@@ -29,40 +15,67 @@ export class CreateCalendarComponent implements OnInit {
   isGenerated: Array<boolean>;
   currIndex: number;
   displayedColumns: string[] = ['professor', 'data', 'epoca'];
-  dataSource = DATA;
+  dataSource: Vigilancia[][];
+  fixedDataSource: Vigilancia[][];
+  unidades: UnidadeCurricular[];
 
-  constructor() { }
+  constructor(
+    private vigilanciaService: VigilanciaService,
+  ) { }
 
   ngOnInit() {
     this.isGenerated = [false, false];
     this.currIndex = 0;
+    this.dataSource = [[], []];
+    this.fixedDataSource = [[], []];
 
+    const getVigilanciasSemestre1 = this.vigilanciaService.getVigilanciasBySemestre(1);
+    const getVigilanciasSemestre2 = this.vigilanciaService.getVigilanciasBySemestre(2);
+    const getUnidadesCurriculares = this.vigilanciaService.getAllUnidadesCurriculares();
 
+    forkJoin([getVigilanciasSemestre1, getVigilanciasSemestre2, getUnidadesCurriculares]).subscribe(results => {
+      this.parseUnidadesCurriculares(results[2]);
+      if (results[0].length > 0) {
+        this.parseVigilancias(results[0], 0);
+      }
+      if (results[1].length > 0) {
+        this.parseVigilancias(results[1], 1);
+      }
+    });
+  }
+
+  parseUnidadesCurriculares(unidadesCurr) {
+    this.unidades = [...unidadesCurr];
+    console.log(this.unidades);
+  }
+
+  parseVigilancias(vigilancias, index) {
+    this.dataSource[index] = vigilancias;
+    this.dataSource = [...this.dataSource];
+    this.fixedDataSource = [...this.dataSource];
+    this.isGenerated[index] = true;
+    this.isGenerated = [...this.isGenerated];
+    console.log(this.dataSource);
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.currIndex = tabChangeEvent.index;
   }
 
-  unidades: UnidadeCurricular[] = [
-    { name: 'Principios da Programação' },
-    { name: 'Projeto de Sistemas de Informação' },
-    { name: 'Sistemas Distribuidos' }
-  ];
-
   generateCalendar() {
-    this.isGenerated[this.currIndex] = true;
+    this.vigilanciaService.getVigilanciasBySemestre(1)
+    .subscribe(data => {
+      this.parseVigilancias(data, this.currIndex);
+    });
   }
 
   filterTable(uni) {
-    console.log(uni);
-    this.dataSource = DATA;
-    function filterByUC(element, index, array) {
-      return (element.unidadecurricular === uni);
+    this.dataSource = [...this.fixedDataSource];
+    function filterByUC(element) {
+      return (element.exame.unidadecurricular.nome === uni);
     }
-    const newDataSource = this.dataSource.filter(filterByUC);
-    this.dataSource = newDataSource;
-    console.log(newDataSource);
+    const newDataSource = this.dataSource[this.currIndex].filter(filterByUC);
+    this.dataSource[this.currIndex] = newDataSource;
   }
 
 }
