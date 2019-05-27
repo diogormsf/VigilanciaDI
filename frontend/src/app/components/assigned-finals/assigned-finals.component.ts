@@ -1,7 +1,7 @@
+import { Vigilancia } from './../../models/vigilancia';
 import { VigilanciaService } from './../../services/vigilancia.service';
 import { Exame } from './../../models/exame';
 import { Component, OnInit } from '@angular/core';
-import { Vigilancia } from 'src/app/models/vigilancia';
 
 @Component({
   selector: 'app-assigned-finals',
@@ -22,7 +22,6 @@ export class AssignedFinalsComponent implements OnInit {
     this.vigilancias = [];
     this.exames = [];
     this.fetchVigilancias();
-    console.log(this.exames);
   }
 
   fetchVigilancias() {
@@ -36,6 +35,10 @@ export class AssignedFinalsComponent implements OnInit {
     console.log('Data requested ... ');
     console.log(this.vigilancias);
     this.vigilancias.forEach(elem => {
+      const vigData = new Date(elem.exame.data);
+      const vigHoraIni = vigData.getHours();
+      const vigHoraFim = vigHoraIni + 3;
+      elem.exame.horario = `${vigHoraIni}:00--${vigHoraFim}:00`;
       this.exames.push(elem.getExame());
     });
     this.exames = [...this.exames];

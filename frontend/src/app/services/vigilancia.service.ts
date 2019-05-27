@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/internal/operators/map';
 import { Observable } from 'rxjs';
+import { UnidadeCurricular } from '../models/unidade-curricular';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,8 @@ export class VigilanciaService {
     return this.http.get(`${this.uri}/createCalendar`, { params: params });
   }
 
+
+
   getVigilanciasResponsavel(id) {
     let params = new HttpParams();
 
@@ -51,5 +54,10 @@ export class VigilanciaService {
 
     return this.http.get<Vigilancia[]>(`${this.uri}/getVigilanciasBySemestre`, { params: params })
     .pipe(map(data => data.map(elem => new Vigilancia().deserialize(elem))));
+  }
+
+  getAllUnidadesCurriculares() {
+    return this.http.get<Vigilancia[]>(`${this.uri}/getAllUnidadesCurriculares`)
+    .pipe(map(data => data.map(elem => new UnidadeCurricular().deserialize(elem))));
   }
 }
